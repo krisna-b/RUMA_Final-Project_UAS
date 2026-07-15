@@ -764,15 +764,14 @@ window.addEventListener('click', (e) => {
   // Intercept checkout click if not logged in
   const checkoutBtn = e.target.closest('.cart-checkout-btn');
   if (checkoutBtn) {
+    // Close the cart drawer
+    const drawer = document.getElementById('cart-drawer');
+    if (drawer && drawer.classList.contains('open')) {
+      drawer.classList.remove('open');
+    }
+
     if (!currentUser) {
       e.preventDefault();
-      
-      // Close the cart drawer
-      const drawer = document.getElementById('cart-drawer');
-      if (drawer && drawer.classList.contains('open')) {
-        drawer.classList.remove('open');
-      }
-      
       const loginPrompt = currentLang === 'en' 
         ? 'Please login first to proceed to checkout.' 
         : 'Silakan login terlebih dahulu untuk melakukan checkout.';
