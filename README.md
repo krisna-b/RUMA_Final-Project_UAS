@@ -171,14 +171,6 @@ Katalog awal RUMA terdiri dari 10 kategori produk:
 - **Keamanan:** validasi input form di sisi client, sanitasi sederhana untuk mencegah input tidak wajar
 - **Pemeliharaan:** update katalog produk berkala, cek broken link/gambar, monitoring performa via Analytics
 
-## 📈 Data Analytics
-
-Metrik yang dipantau melalui Google Analytics (dummy):
-- **Bounce rate** — mengukur efektivitas halaman utama
-- **Conversion rate** — persentase pengunjung yang menyelesaikan checkout
-- **Produk terpopuler** — produk yang paling sering dilihat/ditambahkan ke keranjang
-- **Rata-rata waktu di halaman** — indikator ketertarikan pengunjung
-
 ---
 
 ## 🛠️ Tech Stack
@@ -267,7 +259,7 @@ cd ruma
 
 | Beranda | Profile |
 |---|---|
-| ![Lifestyle](images/beranda.png) | ![Katalog](images/catalog-preview.jpg) |
+| ![Lifestyle](images/beranda.png) | ![Katalog](images/) |
 
 | Banner Hero | Konsep Ruang |
 |---|---|
