@@ -1,0 +1,244 @@
+/* ==========================================
+   CSS RESPONSIVE - RUMA (MEDIA QUERIES)
+   ========================================== */
+
+/* Breakpoint 1: Tablet (Maksimal 1024px) */
+@media screen and (max-width: 1024px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .section-title {
+    font-size: 2.1rem;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    height: 600px;
+  }
+  
+  .hero-bg {
+    width: 100%;
+    opacity: 0.25;
+  }
+
+  .hero-bg::after {
+    background: radial-gradient(circle, transparent 20%, var(--color-bg-secondary) 80%);
+  }
+
+  .hero-content {
+    max-width: 100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+  
+  .hero-content div {
+    justify-content: center;
+  }
+
+  /* Grid Layouts */
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-image {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  /* Catalog Layout */
+  .catalog-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .filter-sidebar {
+    position: relative;
+    top: 0;
+    padding: 20px;
+  }
+
+  .filter-checkbox-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .filter-label {
+    min-width: 120px;
+  }
+
+  /* Checkout Layout */
+  .checkout-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .checkout-sidebar {
+    position: relative;
+    top: 0;
+  }
+
+  /* Footer Layout */
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+/* Breakpoint 2: Mobile (Maksimal 768px) */
+@media screen and (max-width: 768px) {
+  /* Navigation Menu */
+  .mobile-toggle {
+    display: block;
+    padding: 4px 8px;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    gap: 0;
+    padding: 10px 0;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    display: none;
+    z-index: 99;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 14px 0;
+    width: 100%;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .nav-link.active, .nav-link:hover {
+    background-color: var(--color-bg-secondary);
+  }
+
+  /* Hero Section Mobile */
+  .hero-section {
+    height: auto;
+    padding: 80px 0;
+    min-height: 480px;
+  }
+
+  .hero-title {
+    font-size: 2.3rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  /* Grid Layouts Mobile */
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Catalog Sort-Search Row */
+  .sort-search-row {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .search-box-wrapper {
+    max-width: 100%;
+  }
+
+  .sort-box-wrapper {
+    justify-content: space-between;
+  }
+
+  /* Detail Modal Mobile */
+  .modal-body-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-image-col {
+    padding: 24px;
+    max-height: 250px;
+  }
+
+  .modal-image-col img {
+    max-height: 200px;
+  }
+
+  .modal-info-col {
+    padding: 24px;
+  }
+
+  .modal-product-name {
+    font-size: 1.6rem;
+  }
+
+  .modal-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .modal-actions-row .qty-control {
+    justify-content: center;
+  }
+
+  /* Checkout Form */
+  .checkout-card {
+    padding: 24px 16px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .radio-label {
+    padding: 12px;
+  }
+
+  /* Cart Drawer Size Mobile */
+  .cart-drawer-content {
+    width: 100%;
+    right: -100%;
+  }
+}

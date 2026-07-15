@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUMA — E-Commerce Furniture Minimalis & Space-Saving</title>
+  <meta name="description"
+    content="RUMA menghadirkan furniture knock-down minimalis berkualitas tinggi dan ramah kantong untuk kamar kos, apartemen studio, dan first home.">
+  <meta name="keywords"
+    content="furniture minimalis, e-commerce furniture, furniture anak kos, knock-down furniture, RUMA">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Dummy Google Analytics Script -->
+  <script>
+    window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.q = ga.q || [];
+    ga('create', 'UA-RUMA-DUMMY', 'auto');
+    ga('send', 'pageview');
+    console.log("📈 [Google Analytics Dummy] Script terinisialisasi. Tracking ID: UA-RUMA-DUMMY");
+  </script>
+</head>
+
+<body>
+
+  <div class="announcement-bar" style="position: relative; display: flex; justify-content: center; align-items: center;">
+    <span data-i18n="announcement-text">Beli 2 Item atau Lebih & Dapatkan Diskon Bundling 10% Otomatis!</span>
+    <button onclick="dismissAnnouncement()" style="position: absolute; right: 16px; background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer; padding: 0; line-height: 1; opacity: 0.8; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'" aria-label="Close Announcement">&times;</button>
+  </div>
+
+  <!-- Header & Sticky Navbar -->
+  <header>
+    <div class="container navbar-container">
+      <div class="logo">
+        <a href="index.html" class="logo-link"
+          style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+          <svg class="ruma-logo-svg" width="32" height="32" viewBox="0 0 100 100" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 80V40C20 28.9543 28.9543 20 40 20H60C71.0457 20 80 28.9543 80 40V80"
+              stroke="var(--color-accent)" stroke-width="6" stroke-linecap="round" />
+            <path d="M35 65H65" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" />
+            <path d="M40 50V65" stroke="var(--color-accent)" stroke-width="4" />
+            <path d="M60 50V65" stroke="var(--color-accent)" stroke-width="4" />
+            <path d="M38 50H62" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" />
+            <path d="M42 65V78" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" />
+            <path d="M58 65V78" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" />
+          </svg>
+          <span
+            style="font-family: var(--font-heading); font-weight: 600; letter-spacing: 0.1em; font-size: 1.3rem; color: var(--color-text-primary);">RUMA</span>
+        </a>
+      </div>
+
+      <nav>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="index.html" class="nav-link active" data-i18n="nav-home">Beranda</a></li>
+          <li><a href="katalog.html" class="nav-link" data-i18n="nav-catalog">Katalog</a></li>
+          <li><a href="#tentang" class="nav-link" data-i18n="nav-about">Tentang Kami</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Currency Switcher -->
+        <button class="btn-icon" onclick="toggleCurrency()" title="Ubah Mata Uang / Switch Currency"
+          style="font-size: 0.8rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+          <span id="currency-toggle-text">IDR</span>
+        </button>
+
+        <!-- Language Switcher -->
+        <button class="btn-icon" onclick="toggleLanguage()" title="Ubah Bahasa / Switch Language"
+          style="font-size: 0.85rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+          <span id="lang-toggle-text">ID</span>
+        </button>
+
+        <!-- Notifications Bell -->
+        <div style="position: relative; display: flex; align-items: center;">
+          <button class="notification-btn" onclick="toggleNotifications(event)" aria-label="Notifikasi"
+            title="Notifikasi / Notifications">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notification-badge" id="notification-badge" style="display: none;">0</span>
+          </button>
+          <div class="notification-dropdown" id="notification-dropdown">
+            <div class="notification-header">
+              <h4 data-i18n="notif-title">Notifikasi</h4>
+              <button class="clear-notif-btn" onclick="markAllNotifsRead(event)" data-i18n="notif-mark-read">Tandai
+                semua dibaca</button>
+            </div>
+            <div class="notification-list" id="notification-list"></div>
+          </div>
+        </div>
+
+        <button class="cart-icon-btn" onclick="toggleCart()" aria-label="Buka Keranjang">
+          <!-- Shopping Cart Icon SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge">0</span>
+        </button>
+
+        <!-- User Nav Container -->
+        <div id="user-nav-container" style="position: relative; display: flex; align-items: center;"></div>
+
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+          <span>☰</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-slider-wrapper">
+      <div class="hero-slider" id="hero-slider">
+        <div class="hero-slide" style="background-image: url('images/banner-hero.png');"></div>
+        <div class="hero-slide" style="background-image: url('images/category-chair.png');"></div>
+        <div class="hero-slide" style="background-image: url('images/category-table.png');"></div>
+      </div>
+      <div class="hero-slider-dots">
+        <span class="dot active" onclick="manualSetSlide(0)"></span>
+        <span class="dot" onclick="manualSetSlide(1)"></span>
+        <span class="dot" onclick="manualSetSlide(2)"></span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-tag" data-i18n="hero-tag">Betah Diajak Tinggal</span>
+        <h1 class="hero-title" data-i18n="hero-title">Furniture yang Betah Diajak Tinggal</h1>
+        <p class="hero-description" data-i18n="hero-desc">Desain simpel knock-down yang hemat ruang, harga bersahabat
+          untuk mahasiswa & first-jobber, dan proses pindahan yang jauh lebih praktis.</p>
+        <div style="display: flex; gap: 16px;">
+          <a href="katalog.html" class="btn btn-primary" data-i18n="hero-cta-primary">Mulai Belanja 🛒</a>
+          <a href="#tentang" class="btn btn-secondary" data-i18n="hero-cta-secondary">Pelajari Lebih Lanjut</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features/Values Section -->
+  <section class="section-padding features-section-with-bg">
+    <div class="container">
+      <h2 class="section-title" data-i18n="val-title">Mengapa Memilih RUMA?</h2>
+      <p class="section-subtitle" data-i18n="val-subtitle">Kami mendesain furniture dengan memahami tantangan
+        keterbatasan ruang hidup urban modern.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
+              <line x1="15" y1="3" x2="15" y2="21"></line>
+              <line x1="3" y1="9" x2="21" y2="9"></line>
+              <line x1="3" y1="15" x2="21" y2="15"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title" data-i18n="val-space-title">Hemat Ruang</h3>
+          <p class="feature-desc" data-i18n="val-space-desc">Dimensi compact yang dirancang khusus agar pas di kamar
+            kos, apartemen studio, atau rumah kecil.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
+              </path>
+            </svg>
+          </div>
+          <h3 class="feature-title" data-i18n="val-easy-title">Mudah Dirakit</h3>
+          <p class="feature-desc" data-i18n="val-easy-desc">Sistem knock-down cerdas yang dilengkapi petunjuk jelas
+            serta alat perakitan dalam setiap box produk.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title" data-i18n="val-price-title">Harga Bersahabat</h3>
+          <p class="feature-desc" data-i18n="val-price-desc">Mekanisme penjualan langsung secara online menekan biaya
+            operasional toko fisik agar harga tetap murah.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title" data-i18n="val-quality-title">Kualitas Terjamin</h3>
+          <p class="feature-desc" data-i18n="val-quality-desc">Menggunakan bahan engineered wood bermutu tinggi yang
+            kokoh, anti jamur, dan awet digunakan lama.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="section-padding">
+    <div class="container">
+      <h2 class="section-title" data-i18n="featured-title">Produk Terpopuler RUMA</h2>
+      <p class="section-subtitle" data-i18n="featured-subtitle">Furniture pilihan terbaik yang paling banyak disukai
+        oleh pelanggan kami.</p>
+
+      <div class="products-grid" id="featured-products-grid">
+        <!-- Render 4 Featured Products dynamically via JS -->
+      </div>
+
+      <div style="text-align: center; margin-top: 48px;">
+        <a href="katalog.html" class="btn btn-secondary" data-i18n="featured-cta">Lihat Semua Katalog Produk 🛋️</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Lifestyle Section -->
+  <section class="section-padding about-section" id="tentang">
+    <div class="container about-grid">
+      <div class="about-image">
+        <img src="images/about-lifestyle.jpg" alt="RUMA Lifestyle Interior">
+      </div>
+      <div class="about-content">
+        <h2 data-i18n="about-title">Filosofi Desain RUMA</h2>
+        <p data-i18n="about-p1">RUMA lahir dari keresahan mahasiswa tingkat akhir dan pekerja muda di kota besar yang
+          sering berpindah-pindah hunian namun kesulitan mencari furniture yang pas di kantong, kokoh, dan mudah
+          dipindahkan.</p>
+        <p data-i18n="about-p2">Kami meyakini bahwa keterbatasan ukuran kamar kos atau apartemen studio Anda bukanlah
+          halangan untuk memiliki ruang hidup yang tertata, fungsional, dan estetik.</p>
+
+        <div class="about-blockquote" data-i18n="about-quote">
+          "Rumah bukanlah tentang seberapa luas areanya, melainkan tentang seberapa betah Anda berada di dalamnya."
+        </div>
+
+        <a href="katalog.html" class="btn btn-primary" style="margin-top: 10px;" data-i18n="about-cta">Temukan Furniture
+          Anda</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RUMA In Action Gallery Section -->
+  <section class="section-padding"
+    style="background-color: var(--color-white); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+    <div class="container">
+      <h2 class="section-title" data-i18n="gallery-title"
+        style="text-align: center; font-family: var(--font-heading); margin-bottom: 8px;">RUMA di Setiap Sudut Ruang
+      </h2>
+      <p class="section-subtitle" data-i18n="gallery-subtitle"
+        style="text-align: center; color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 36px auto; font-size: 0.95rem;">
+        Inspirasi penataan ruang nyata menggunakan produk furniture knock-down hemat tempat dari RUMA.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+        <div style="position: relative; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-subtle);">
+          <img src="images/room-dorm.png" alt="RUMA Kamar Kos/Dorm Room"
+            style="width: 100%; height: 260px; object-fit: cover; display: block; transition: var(--transition-smooth);"
+            onmouseover="this.style.transform='scale(1.04)';" onmouseout="this.style.transform='scale(1)';">
+          <div
+            style="position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); padding: 20px 16px; color: white; box-sizing: border-box;">
+            <strong style="font-size: 1rem; display: block;" data-i18n="gallery-room1-title">Kamar Kos
+              Fungsional</strong>
+            <span style="font-size: 0.78rem; opacity: 0.85;" data-i18n="gallery-room1-desc">Meja kerja compact & rak
+              dinding minimalis.</span>
+          </div>
+        </div>
+        <div style="position: relative; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-subtle);">
+          <img src="images/room-studio.png" alt="RUMA Apartemen Studio/Studio Living"
+            style="width: 100%; height: 260px; object-fit: cover; display: block; transition: var(--transition-smooth);"
+            onmouseover="this.style.transform='scale(1.04)';" onmouseout="this.style.transform='scale(1)';">
+          <div
+            style="position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); padding: 20px 16px; color: white; box-sizing: border-box;">
+            <strong style="font-size: 1rem; display: block;" data-i18n="gallery-room2-title">Ruang Tamu Apartemen
+              Studio</strong>
+            <span style="font-size: 0.78rem; opacity: 0.85;" data-i18n="gallery-room2-desc">Coffee table & kabinet
+              penyimpanan modular.</span>
+          </div>
+        </div>
+        <div style="position: relative; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-subtle);">
+          <img src="images/room-office.png" alt="RUMA Ruang Kerja Rumah/Home Office"
+            style="width: 100%; height: 260px; object-fit: cover; display: block; transition: var(--transition-smooth);"
+            onmouseover="this.style.transform='scale(1.04)';" onmouseout="this.style.transform='scale(1)';">
+          <div
+            style="position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); padding: 20px 16px; color: white; box-sizing: border-box;">
+            <strong style="font-size: 1rem; display: block;" data-i18n="gallery-room3-title">Sudut Kerja
+              Produktif</strong>
+            <span style="font-size: 0.78rem; opacity: 0.85;" data-i18n="gallery-room3-desc">Meja belajar serbaguna &
+              laci dorong kolong meja.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="section-padding testimonials-section-with-bg">
+    <div class="container">
+      <h2 class="section-title" data-i18n="testi-title">Cerita Mereka Bersama RUMA</h2>
+      <p class="section-subtitle" data-i18n="testi-subtitle">Dengarkan ulasan dari mereka yang telah mengubah kamar kos
+        & apartemennya bersama kami.</p>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-quote">
+            "Meja Lipat Serbaguna dari RUMA bener-bener penyelamat kamar kosan aku yang super sempit. Pas selesai
+            belajar, tinggal dilipat terus diselipin di bawah kasur. Kamar jadi langsung terasa lapang lagi!"
+          </div>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">A</div>
+            <div>
+              <h4 class="testimonial-name">Andini Rahma</h4>
+              <span class="testimonial-role" data-i18n="testi-role-1">Mahasiswa Universitas Indonesia</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-quote">
+            "Sistem rakit-sendiri dari RUMA seru banget! Petunjuknya jelas dan bahannya tebal. Waktu pindah apartemen
+            kemarin, rak buku modularnya gampang banget dibongkar dan dimasukkin ke kardus mobil."
+          </div>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">B</div>
+            <div>
+              <h4 class="testimonial-name">Bintang Pratama</h4>
+              <span class="testimonial-role" data-i18n="testi-role-2">First-jobber / Software Engineer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-quote">
+            "Awalnya ragu beli lemari portable online, tapi di RUMA kualitas rangkanya bagus banget dan kokoh. Harganya
+            juga masuk akal buat kantong pasangan baru menikah seperti kami."
+          </div>
+          <div class="testimonial-user">
+            <div class="testimonial-avatar">C</div>
+            <div>
+              <h4 class="testimonial-name">Chandra & Sela</h4>
+              <span class="testimonial-role" data-i18n="testi-role-3">Pasangan Muda / Wiraswasta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- FAQ Section -->
+  <section class="section-padding" id="faq" style="background-color: var(--color-bg-primary);">
+    <div class="container" style="max-width: 760px;">
+      <h2 class="section-title" style="text-align:center;">Pertanyaan yang Sering Ditanyakan</h2>
+      <p class="section-subtitle" style="text-align:center; margin-bottom: 40px;">Temukan jawaban atas pertanyaan umum
+        seputar belanja di RUMA.</p>
+      <div class="faq-list" id="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Bagaimana cara memesan produk di RUMA?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Pilih produk yang Anda inginkan di halaman <a href="katalog.html"
+                style="color:var(--color-accent);">Katalog</a>, klik ikon keranjang untuk menambahkannya, lalu lanjutkan
+              ke halaman pembayaran. Isi data diri dan konfirmasi pesanan melalui WhatsApp ke tim RUMA.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Apakah produk RUMA tersedia rakitan atau perlu dirakit sendiri?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sebagian besar produk RUMA dikirimkan dalam kondisi flat-pack untuk menghemat ongkos pengiriman. Panduan
+              perakitan disertakan di setiap paket. Anda juga dapat memilih layanan <strong>Jasa Perakitan</strong> saat
+              checkout dengan biaya tambahan.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Berapa lama estimasi pengiriman?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Pengiriman reguler memerlukan <strong>3–5 hari kerja</strong> untuk area Jabodetabek dan <strong>5–10
+                hari kerja</strong> untuk luar kota. Pengiriman ekspres tersedia dengan estimasi <strong>1–2 hari
+                kerja</strong>.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Metode pembayaran apa saja yang diterima?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>RUMA menerima pembayaran melalui <strong>Virtual Account</strong> (BCA, Mandiri, BNI, BRI),
+              <strong>Transfer Bank</strong>, serta dompet digital seperti <strong>GoPay, OVO,</strong> dan
+              <strong>Dana</strong>. Semua transaksi diproses melalui Midtrans sebagai payment gateway.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Bagaimana kebijakan pengembalian barang?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Kami menerima pengembalian barang dalam kondisi belum dirakit dan dalam kemasan asli dalam <strong>7
+                hari</strong> setelah penerimaan. Barang yang rusak saat pengiriman wajib dilaporkan dengan foto dalam
+              <strong>24 jam</strong>. Hubungi tim kami melalui Live Chat untuk memulai proses retur.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Apakah ada garansi produk?</span>
+            <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+              stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Ya, semua produk RUMA dilindungi <strong>garansi struktural selama 6 bulan</strong> sejak tanggal
+              pembelian. Garansi mencakup cacat material dan kerusakan produksi, namun tidak mencakup kerusakan akibat
+              penggunaan yang tidak wajar atau perubahan produk.</p>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="logo-link"
+            style="display: flex; align-items: center; gap: 8px; text-decoration: none; margin-bottom: 20px;">
+            <svg class="ruma-logo-svg" width="32" height="32" viewBox="0 0 100 100" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 80V40C20 28.9543 28.9543 20 40 20H60C71.0457 20 80 28.9543 80 40V80"
+                stroke="var(--color-accent)" stroke-width="6" stroke-linecap="round" />
+              <path d="M35 65H65" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" />
+              <path d="M40 50V65" stroke="var(--color-accent)" stroke-width="4" />
+              <path d="M60 50V65" stroke="var(--color-accent)" stroke-width="4" />
+              <path d="M38 50H62" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" />
+              <path d="M42 65V78" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" />
+              <path d="M58 65V78" stroke="var(--color-accent)" stroke-width="4" stroke-linecap="round" />
+            </svg>
+            <span
+              style="font-family: var(--font-heading); font-weight: 600; letter-spacing: 0.1em; font-size: 1.3rem; color: var(--color-text-primary);">RUMA</span>
+          </a>
+          <p data-i18n="footer-about-text">E-commerce furniture minimalis, fungsional, dan ramah kantong yang didesain
+            khusus untuk gaya hidup modern.</p>
+          <div class="social-links">
+            <a href="#" class="social-icon" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Twitter">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                </path>
+              </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="TikTok">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer-quick-title">Menu Cepat</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link" data-i18n="nav-home">Beranda</a></li>
+            <li><a href="katalog.html" class="footer-link" data-i18n="nav-catalog">Katalog Produk</a></li>
+            <li><a href="#tentang" class="footer-link" data-i18n="nav-about">Tentang Kami</a></li>
+            <li><a href="README.md" class="footer-link" target="_blank">Business Overview</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer-services-title">Layanan</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link" data-i18n="footer-link-return">Kebijakan Pengembalian</a></li>
+            <li><a href="#" class="footer-link" data-i18n="footer-link-terms">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="footer-link" data-i18n="footer-link-support">Hubungi Dukungan</a></li>
+            <li><a href="#" class="footer-link" data-i18n="footer-link-assembly">Panduan Perakitan</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col footer-payment">
+          <h4 data-i18n="footer-payment-title">Partner Pembayaran</h4>
+          <div class="payment-badges">
+            <span class="payment-badge">Midtrans Dummy</span>
+            <span class="payment-badge">Bank Transfer</span>
+            <span class="payment-badge">GOPAY</span>
+            <span class="payment-badge">OVO</span>
+            <span class="payment-badge">Dana</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p data-i18n="footer-rights">&copy; 2026 RUMA Furniture Co. Seluruh Hak Cipta Dilindungi Undang-Undang.</p>
+        <p data-i18n="footer-author">Dibuat oleh Krisna Bagja (209250190) — Tugas KAIT II IWU</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shopping Cart Drawer Slider -->
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-overlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer-content">
+      <div class="cart-drawer-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <h3 data-i18n="cart-title-drawer" style="font-size: 1.3rem; margin: 0;">Keranjang Belanja</h3>
+        </div>
+        <button class="close-drawer-btn" onclick="toggleCart()" aria-label="Tutup Keranjang">&times;</button>
+      </div>
+
+      <!-- Cart Items Container -->
+      <div id="cart-items-container" class="cart-items-container">
+        <!-- Rendered dynamically by cart.js -->
+      </div>
+
+      <div class="cart-drawer-footer">
+        <div class="totals">
+          <div class="total-row">
+            <span data-i18n="cart-subtotal-label">Subtotal:</span>
+            <span id="cart-subtotal">Rp 0</span>
+          </div>
+          <div class="total-row discount-row" id="cart-discount-row" style="display: none;">
+            <span data-i18n="cart-discount-label">Diskon Bundling (10%):</span>
+            <span id="cart-discount">-Rp 0</span>
+          </div>
+          <div class="total-row total-main">
+            <span data-i18n="cart-total-label">Total Akhir:</span>
+            <span id="cart-total">Rp 0</span>
+          </div>
+        </div>
+        <a href="checkout.html" class="btn btn-primary cart-checkout-btn" data-i18n="cart-checkout-cta">Lanjut ke
+          Pembayaran 💳</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-overlay" onclick="closeLoginModal()"></div>
+    <div class="modal-content" style="width: 440px; max-width: 95%;">
+      <button class="close-modal-btn" onclick="closeLoginModal()" aria-label="Tutup Login Modal">&times;</button>
+      <div style="padding: 30px 24px;">
+        <h3 style="margin-bottom: 4px; font-family: var(--font-heading); font-size: 1.6rem; text-align: center;">Akun
+          RUMA</h3>
+        <p style="text-align:center; font-size: 0.8rem; color: var(--color-text-secondary); margin-bottom: 20px;">
+          Furniture minimalis untuk hidup modern</p>
+
+        <!-- Tab Headers: 3 tabs -->
+        <div style="display: flex; border-bottom: 2px solid var(--color-border); margin-bottom: 24px; gap: 2px;">
+          <button type="button" id="tab-login-btn" onclick="switchLoginTab('login')"
+            style="flex:1; padding: 10px 6px; background:none; border:none; border-bottom: 2px solid var(--color-accent); font-weight:700; color:var(--color-accent); cursor:pointer; font-family:var(--font-body); font-size:0.82rem; margin-bottom:-2px; transition: all 0.2s;">Masuk</button>
+          <button type="button" id="tab-signup-btn" onclick="switchLoginTab('signup')"
+            style="flex:1; padding: 10px 6px; background:none; border:none; border-bottom: 2px solid transparent; font-weight:500; color:var(--color-text-secondary); cursor:pointer; font-family:var(--font-body); font-size:0.82rem; margin-bottom:-2px; transition: all 0.2s;">Daftar</button>
+          <button type="button" id="tab-admin-btn" onclick="switchLoginTab('admin')"
+            style="flex:1; padding: 10px 6px; background:none; border:none; border-bottom: 2px solid transparent; font-weight:500; color:var(--color-text-secondary); cursor:pointer; font-family:var(--font-body); font-size:0.82rem; margin-bottom:-2px; transition: all 0.2s;">Admin</button>
+        </div>
+
+        <!-- ===== TAB: LOGIN (existing user) ===== -->
+        <div id="tab-panel-login">
+          <form id="login-form-existing" onsubmit="submitExistingLogin(event)">
+            <div class="form-group">
+              <label for="login-ex-username">Username</label>
+              <input type="text" id="login-ex-username" class="form-control" placeholder="Username yang terdaftar"
+                required>
+            </div>
+            <div class="form-group" style="margin-bottom: 24px;">
+              <label for="login-ex-password">Password</label>
+              <input type="password" id="login-ex-password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Masuk ke Akun</button>
+            <p style="text-align:center; margin-top:14px; font-size:0.78rem; color:var(--color-text-secondary);">Belum
+              punya akun? <button type="button" onclick="switchLoginTab('signup')"
+                style="background:none;border:none;color:var(--color-accent);font-weight:700;cursor:pointer;font-size:0.78rem;">Daftar
+                sekarang</button></p>
+          </form>
+        </div>
+
+        <!-- ===== TAB: DAFTAR (new user) ===== -->
+        <div id="tab-panel-signup" style="display:none;">
+          <form id="login-form-signup" onsubmit="submitSignup(event)">
+            <div class="form-group">
+              <label for="signup-username">Username</label>
+              <input type="text" id="signup-username" class="form-control" placeholder="Nama pengguna unik Anda"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="signup-email">Alamat Email</label>
+              <input type="email" id="signup-email" class="form-control" placeholder="nama@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-phone">Nomor Telepon</label>
+              <input type="text" id="signup-phone" class="form-control" placeholder="0821xxxxxxxx" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-address">Alamat Lengkap</label>
+              <textarea id="signup-address" class="form-control" placeholder="Jl. Raya No. 123, Kota"
+                style="resize:vertical; height:60px; font-family:inherit; font-size:0.85rem; padding:8px;"
+                required></textarea>
+            </div>
+            <div class="form-group" style="margin-bottom: 24px;">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" class="form-control" placeholder="Minimal 6 karakter"
+                required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Buat Akun</button>
+            <p style="text-align:center; margin-top:14px; font-size:0.78rem; color:var(--color-text-secondary);">Sudah
+              punya akun? <button type="button" onclick="switchLoginTab('login')"
+                style="background:none;border:none;color:var(--color-accent);font-weight:700;cursor:pointer;font-size:0.78rem;">Masuk
+                di sini</button></p>
+          </form>
+        </div>
+
+        <!-- ===== TAB: ADMIN ===== -->
+        <div id="tab-panel-admin" style="display:none;">
+          <div
+            style="background: linear-gradient(135deg, #fff8f0, #fff3e0); border: 1px solid #ffe0b2; border-radius:8px; padding:12px 14px; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="#e65100" stroke-width="2"
+              viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span style="font-size:0.78rem; color:#bf360c; font-weight:600;">Area khusus Admin RUMA. Akses
+              dibatasi.</span>
+          </div>
+          <form id="login-form-admin" onsubmit="submitAdminLogin(event)">
+            <div class="form-group">
+              <label for="admin-username">Username Admin</label>
+              <input type="text" id="admin-username" class="form-control" placeholder="admin krisna" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 24px;">
+              <label for="admin-password">Password Admin</label>
+              <input type="password" id="admin-password" class="form-control" placeholder="••••••••" required>
+              <span
+                style="font-size: 0.7rem; color: var(--color-text-secondary); margin-top: 5px; display: block;">Kredensial:
+                admin krisna / admin krisna</span>
+            </div>
+            <button type="submit" class="btn btn-primary"
+              style="width:100%; background: linear-gradient(135deg, #bf360c, #e64a19);">Masuk sebagai Admin</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/translation.js"></script>
+  <script>
+    // Logika khusus Halaman Beranda
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFeaturedProducts();
+    });
+
+    // Helper to generate star icons
+    function getRatingStarsSVG(rating) {
+      let starsHtml = '';
+      const fullStars = Math.floor(rating);
+      const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+
+      for (let i = 0; i < 5; i++) {
+        if (i < fullStars) {
+          starsHtml += `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="var(--color-accent)" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+        } else if (i === fullStars && halfStar) {
+          starsHtml += `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="var(--color-accent)" opacity="0.5" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+        } else {
+          starsHtml += `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-border)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`;
+        }
+      }
+      return starsHtml;
+    }
+
+    // Menampilkan 4 produk unggulan pertama secara dinamis
+    function renderFeaturedProducts() {
+      const grid = document.getElementById('featured-products-grid');
+      if (!grid || typeof products === 'undefined') return;
+
+      // Ambil 4 produk pertama yang aktif
+      const activeItems = products.filter(p => p.visible !== false).slice(0, 4);
+
+      let html = '';
+      activeItems.forEach(prod => {
+        const displayName = currentLang === 'en' ? (prod.nama_en || prod.nama) : prod.nama;
+        const displayCategory = currentLang === 'en' ? (prod.kategori_en || prod.kategori) : prod.kategori;
+        const displayDesc = currentLang === 'en' ? (prod.deskripsi_en || prod.deskripsi) : prod.deskripsi;
+        const soldText = currentLang === 'en' ? 'sold' : 'terjual';
+
+        // Badge stok jika habis
+        let badgeHtml = `<span class="product-badge">${displayCategory}</span>`;
+        if (prod.stok <= 0) {
+          badgeHtml = `<span class="product-badge" style="background-color: var(--color-danger);">${currentLang === 'en' ? 'Out of Stock' : 'Stok Habis'}</span>`;
+        }
+
+        html += `
+          <article class="product-card">
+            <div class="product-img-wrapper">
+              <img src="${prod.gambar}" alt="${displayName}" class="product-img">
+              ${badgeHtml}
+            </div>
+            <div class="product-info">
+              <span class="product-category">${displayCategory}</span>
+              <h3 class="product-name">${displayName}</h3>
+              
+              <!-- Product Rating & Sales Count -->
+              <div style="display: flex; align-items: center; gap: 4px; margin: 6px 0;">
+                <div style="display: flex; align-items: center; gap: 1px;">
+                  ${getRatingStarsSVG(prod.rating)}
+                </div>
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--color-text-primary); margin-left: 2px;">${prod.rating}</span>
+                <span style="font-size: 0.75rem; color: var(--color-text-secondary);">(${prod.terjual} ${soldText})</span>
+              </div>
+
+              <p class="product-desc-short">${displayDesc}</p>
+              <div class="product-footer">
+                <span class="product-price">${formatRupiah(prod.harga)}</span>
+                <div class="product-actions">
+                  <button class="btn-icon btn-icon-primary" onclick="addToCart('${prod.id}')" title="Tambah ke Keranjang" ${prod.stok <= 0 ? 'disabled' : ''}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                  </button>
+                  <a href="katalog.html?detail=${prod.id}" class="btn-icon" title="Lihat Detail">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      });
+
+      grid.innerHTML = html;
+    }
+
+    // Hero Banner Auto-Slider
+    let currentSlide = 0;
+    const totalSlides = 3;
+
+    function setSlide(index) {
+      currentSlide = index;
+      const slider = document.getElementById('hero-slider');
+      if (slider) {
+        slider.style.transform = `translateX(-${(currentSlide * 100) / totalSlides}%)`;
+      }
+
+      const dots = document.querySelectorAll('.hero-slider-dots .dot');
+      dots.forEach((dot, idx) => {
+        if (idx === currentSlide) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      setSlide(currentSlide);
+    }
+
+    let slideInterval = setInterval(nextSlide, 5000);
+
+    function manualSetSlide(index) {
+      clearInterval(slideInterval);
+      setSlide(index);
+      slideInterval = setInterval(nextSlide, 5000);
+    }
+
+    // Toggle menu navigasi mobile
+    function toggleMobileMenu() {
+      const menu = document.getElementById('nav-menu');
+      if (menu) {
+        menu.classList.toggle('active');
+      }
+    }
+
+    // FAQ Accordion
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const icon = btn.querySelector('.faq-icon');
+      const isOpen = item.classList.contains('open');
+
+      // Close all open items
+      document.querySelectorAll('.faq-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.faq-answer').style.maxHeight = '0';
+        el.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+      });
+
+      if (!isOpen) {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+  </script>
+</body>
+
+</html>

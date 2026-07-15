@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛋️ RUMA
+# RUMA
 ### *"Furniture yang Betah Diajak Tinggal"*
 
 ![Status](https://img.shields.io/badge/status-in%20development-orange)
@@ -15,18 +15,8 @@
 
 ---
 
-<!--
-BANNER UTAMA
-Ganti placeholder di bawah ini dengan gambar hero banner RUMA (ukuran disarankan: 1600x600px).
-Rekomendasi sumber gratis (Unsplash) sesuai tema furniture minimalis:
-https://unsplash.com/s/photos/minimalist-furniture
-https://unsplash.com/s/photos/apartment-interior
-Simpan sebagai: images/banner-hero.jpg lalu update src di bawah.
--->
 <p align="center">
   <img src="images/banner-hero.jpg" alt="RUMA Hero Banner" width="100%">
-  <br>
-  <em>🖼️ [Placeholder Banner Hero — ganti dengan foto ruangan minimalis berisi furniture RUMA]</em>
 </p>
 
 ---
@@ -61,15 +51,8 @@ RUMA hadir dengan furniture **knock-down** (rakit sendiri), desain minimalis, da
 > **Value Proposition:**
 > Desain simpel yang hemat ruang, harga terjangkau, dan sistem rakit-sendiri yang bikin ongkir dan proses pindahan jauh lebih ringan.
 
-<!--
-GAMBAR PENDUKUNG 1
-Rekomendasi: foto produk furniture terpasang di ruangan kecil
-Sumber: https://unsplash.com/s/photos/small-space-furniture
--->
 <p align="center">
   <img src="images/about-lifestyle.jpg" alt="RUMA Lifestyle" width="70%">
-  <br>
-  <em>🖼️ [Placeholder — foto lifestyle: furniture RUMA di kamar kos/apartemen kecil]</em>
 </p>
 
 ---
@@ -113,20 +96,10 @@ Katalog awal RUMA terdiri dari 10 kategori produk:
 | 7 | Nakas Samping Tempat Tidur | Nakas | Ukuran kecil, fungsional |
 | 8 | Partisi Ruangan Lipat | Partisi | Sekat ruangan portable |
 | 9 | Kursi Gaming Budget | Kursi | Ergonomis, harga terjangkau |
-| 10 | Rak Dinding Gantung | Rak | Hemat lantai, tampil estetik |
+| 10 | Meja Ruang Tamu | Meja | Desain estetik dan fungsional |
 
-<!--
-GAMBAR KATALOG
-Rekomendasi sumber per kategori (Unsplash search):
-- Meja lipat: https://unsplash.com/s/photos/folding-table
-- Rak buku: https://unsplash.com/s/photos/bookshelf-minimalist
-- Kursi lipat: https://unsplash.com/s/photos/folding-chair
-- Lemari portable: https://unsplash.com/s/photos/portable-wardrobe
--->
 <p align="center">
   <img src="images/catalog-preview.jpg" alt="RUMA Product Catalog Preview" width="90%">
-  <br>
-  <em>🖼️ [Placeholder — kolase 4 foto produk unggulan katalog]</em>
 </p>
 
 ---
@@ -227,12 +200,13 @@ ruma/
 ├── katalog.html
 ├── checkout.html
 ├── css/
-│   ├── style.css
-│   └── responsive.css
+│   ├── style.css         <-- CSS Utama, Desain Toko, & Layout Global
+│   └── responsive.css    <-- Media Queries responsif (Desktop, Tablet, Mobile)
 ├── js/
-│   ├── cart.js
-│   ├── filter.js
-│   └── checkout.js
+│   ├── products.js       <-- Centralized Database 10 Produk
+│   ├── cart.js           <-- Manajemen Keranjang Belanja & localStorage
+│   ├── filter.js         <-- Logika filter pencarian real-time & detail modal
+│   └── checkout.js       <-- Validasi data pelanggan & Midtrans Simulator
 ├── images/
 │   ├── banner-hero.jpg
 │   ├── about-lifestyle.jpg
@@ -243,6 +217,30 @@ ruma/
 │       └── ...
 └── README.md
 ```
+
+---
+
+## ⚙️ Penjelasan Teknis & Arsitektur Kode
+
+Untuk memenuhi kriteria kebersihan kode, modularitas, dan pemeliharaan jangka panjang, website RUMA menggunakan arsitektur front-end berbasis JavaScript murni (Vanilla JS) dengan beberapa mekanisme utama:
+
+1. **Penyimpanan Data Produk Terpusat (`js/products.js`)**
+   - Seluruh spesifikasi produk, harga, stok, deskripsi, dan gambar disimpan dalam array object terpusat. Hal ini mempermudah pembaruan katalog tanpa harus mengubah kode HTML di banyak tempat (*Single Source of Truth*).
+
+2. **Manajemen Keranjang Belanja Persisten (`js/cart.js`)**
+   - Ikut menyimpan keranjang belanja ke dalam browser `localStorage` sebagai JSON string (`ruma_cart`). Data keranjang tetap aman saat halaman dimuat ulang (*refresh*) atau berpindah halaman.
+   - Perubahan kuantitas produk memicu pembaruan badge ikon keranjang secara instan dan sinkron di semua halaman.
+
+3. **Mesin Filter & Pencarian Katalog Tanpa Reload (`js/filter.js`)**
+   - Input pencarian mendeteksi ketikan pengguna secara *real-time* (`input` event).
+   - Pengurutan harga (*Sorting*) dan penyaringan kategori bekerja secara kumulatif untuk menyaring array produk secara cepat sebelum ditampilkan kembali di layar menggunakan manipulasi DOM.
+
+4. **Sistem Validasi & Simulator Midtrans (`js/checkout.js`)**
+   - Formulir pengiriman melakukan validasi regex untuk memverifikasi keabsahan data email, nomor telepon (10-13 digit angka), serta kode pos (5 digit angka).
+   - Simulator Midtrans bertindak sebagai simulasi gerbang pembayaran (*payment gateway*) dengan menampilkan instruksi pembayaran Virtual Account bank secara acak dan kode QRIS dummy, disertai tombol penyelesaian transaksi sukses untuk mengosongkan keranjang.
+
+5. **Pelacakan Perilaku Pengguna (Google Analytics Dummy)**
+   - Script analytics disematkan di setiap halaman. Ketika interaksi penting terjadi (seperti pageview, menambah produk ke keranjang, mengganti kuantitas, memvalidasi form, atau sukses transaksi), sebuah fungsi `trackGAEvent` dipicu untuk mencetak log GA ke konsol browser sebagai simulasi analitik data-driven.
 
 ---
 
@@ -265,33 +263,15 @@ cd ruma
 
 ## 📸 Screenshot Website
 
-<!--
-LAYOUT SCREENSHOT — isi setelah website selesai dibangun.
-Ambil screenshot desktop (lebar) dan mobile (potrait) untuk tiap halaman utama.
-Simpan di folder images/screenshots/ lalu update path di bawah.
--->
+### 🖥️ Tampilan Galeri Desain
 
-### 🖥️ Tampilan Desktop
-
-| Homepage | Katalog Produk |
+| Ruangan Minimalis | Kolase Katalog |
 |---|---|
-| ![Homepage Desktop](images/screenshots/desktop-home.jpg) | ![Katalog Desktop](images/screenshots/desktop-katalog.jpg) |
+| ![Lifestyle](images/about-lifestyle.jpg) | ![Katalog](images/catalog-preview.jpg) |
 
-| Detail Produk (Modal) | Checkout |
+| Banner Hero | Konsep Ruang |
 |---|---|
-| ![Detail Produk](images/screenshots/desktop-detail.jpg) | ![Checkout Desktop](images/screenshots/desktop-checkout.jpg) |
-
-### 📱 Tampilan Mobile
-
-| Homepage | Katalog Produk |
-|---|---|
-| ![Homepage Mobile](images/screenshots/mobile-home.jpg) | ![Katalog Mobile](images/screenshots/mobile-katalog.jpg) |
-
-| Keranjang Belanja | Checkout |
-|---|---|
-| ![Cart Mobile](images/screenshots/mobile-cart.jpg) | ![Checkout Mobile](images/screenshots/mobile-checkout.jpg) |
-
-> 💡 **Catatan:** ganti seluruh path gambar di atas dengan screenshot asli setelah website selesai dikembangkan. Minimal 4 halaman (2 desktop + 2 mobile) sesuai ketentuan tugas.
+| ![Hero Banner](images/banner-hero.jpg) | ![Kamar Studio](images/room-studio.jpg) |
 
 ---
 
@@ -305,7 +285,7 @@ Simpan di folder images/screenshots/ lalu update path di bawah.
 
 <div align="center">
 
-**RUMA** — Furniture yang Betah Diajak Tinggal 🛋️
+**RUMA** — Furniture yang Betah Diajak Tinggal
 
 *Dibuat untuk memenuhi tugas KAIT II — Program Studi Administrasi Bisnis, IWU*
 
