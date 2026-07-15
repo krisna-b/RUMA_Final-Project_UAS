@@ -319,6 +319,10 @@ function updateCurrencyToggleUI() {
   if (toggleBtnText) {
     toggleBtnText.textContent = activeCurrency;
   }
+  const mobileToggleText = document.getElementById('currency-toggle-text-mobile');
+  if (mobileToggleText) {
+    mobileToggleText.textContent = activeCurrency;
+  }
 }
 
 function toggleCurrency() {

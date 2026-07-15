@@ -2201,3 +2201,26 @@ footer {
   line-height: 1.7;
   margin: 0;
 }
+
+/* ==========================================
+   RESPONSIVE UTILITIES
+   ========================================== */
+.mobile-only {
+  display: none !important;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.mobile-nav-switchers-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  border-top: 1px solid var(--color-border);
+  margin-top: 10px;
+}
+

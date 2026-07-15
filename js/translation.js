@@ -340,6 +340,10 @@ function setLanguage(lang) {
   if (langToggleBtn) {
     langToggleBtn.textContent = lang.toUpperCase();
   }
+  const mobileLangToggle = document.getElementById('lang-toggle-text-mobile');
+  if (mobileLangToggle) {
+    mobileLangToggle.textContent = lang.toUpperCase();
+  }
 
   // Translate static tags
   const elementsToTranslate = document.querySelectorAll('[data-i18n]');

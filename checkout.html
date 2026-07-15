@@ -48,36 +48,45 @@
           <li><a href="index.html" class="nav-link" data-i18n="nav-home">Beranda</a></li>
           <li><a href="katalog.html" class="nav-link" data-i18n="nav-catalog">Katalog</a></li>
           <li><a href="index.html#tentang" class="nav-link" data-i18n="nav-about">Tentang Kami</a></li>
+          <!-- Mobile Switchers inside menu drawer -->
+          <li class="mobile-only mobile-nav-switchers-container">
+            <button type="button" class="btn btn-secondary" onclick="toggleCurrency()" title="Ubah Mata Uang" style="padding: 8px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 4px;">
+              💵 <span id="currency-toggle-text-mobile">IDR</span>
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="toggleLanguage()" title="Ubah Bahasa" style="padding: 8px 12px; font-size: 0.85rem; font-weight: 700; border-radius: 4px;">
+              🌐 <span id="lang-toggle-text-mobile">ID</span>
+            </button>
+          </li>
         </ul>
       </nav>
       
       <div class="nav-actions">
         <!-- Currency Switcher -->
-        <button class="btn-icon" onclick="toggleCurrency()" title="Ubah Mata Uang / Switch Currency" style="font-size: 0.8rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+        <button type="button" class="btn-icon desktop-only" onclick="toggleCurrency()" title="Ubah Mata Uang / Switch Currency" style="font-size: 0.8rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
           <span id="currency-toggle-text">IDR</span>
         </button>
 
         <!-- Language Switcher -->
-        <button class="btn-icon" onclick="toggleLanguage()" title="Ubah Bahasa / Switch Language" style="font-size: 0.85rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+        <button type="button" class="btn-icon desktop-only" onclick="toggleLanguage()" title="Ubah Bahasa / Switch Language" style="font-size: 0.85rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
           <span id="lang-toggle-text">ID</span>
         </button>
 
         <!-- Notifications Bell -->
         <div style="position: relative; display: flex; align-items: center;">
-          <button class="notification-btn" onclick="toggleNotifications(event)" aria-label="Notifikasi" title="Notifikasi / Notifications">
+          <button type="button" class="notification-btn" onclick="toggleNotifications(event)" aria-label="Notifikasi" title="Notifikasi / Notifications">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
             <span class="notification-badge" id="notification-badge" style="display: none;">0</span>
           </button>
           <div class="notification-dropdown" id="notification-dropdown">
             <div class="notification-header">
               <h4 data-i18n="notif-title">Notifikasi</h4>
-              <button class="clear-notif-btn" onclick="markAllNotifsRead(event)" data-i18n="notif-mark-read">Tandai semua dibaca</button>
+              <button type="button" class="clear-notif-btn" onclick="markAllNotifsRead(event)" data-i18n="notif-mark-read">Tandai semua dibaca</button>
             </div>
             <div class="notification-list" id="notification-list"></div>
           </div>
         </div>
 
-        <button class="cart-icon-btn" onclick="toggleCart()" aria-label="Buka Keranjang">
+        <button type="button" class="cart-icon-btn" onclick="toggleCart()" aria-label="Buka Keranjang">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
           <span class="cart-badge">0</span>
         </button>
@@ -85,7 +94,7 @@
         <!-- User Nav Container -->
         <div id="user-nav-container" style="position: relative; display: flex; align-items: center;"></div>
 
-        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+        <button type="button" class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
           <span>☰</span>
         </button>
       </div>

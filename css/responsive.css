@@ -17,12 +17,12 @@
     height: 600px;
   }
   
-  .hero-bg {
-    width: 100%;
+  .hero-slider-wrapper {
+    width: 100% !important;
     opacity: 0.25;
   }
 
-  .hero-bg::after {
+  .hero-slider-wrapper::after {
     background: radial-gradient(circle, transparent 20%, var(--color-bg-secondary) 80%);
   }
 
@@ -148,6 +148,19 @@
     background-color: var(--color-bg-secondary);
   }
 
+  /* Utility display classes for mobile */
+  .mobile-only {
+    display: block !important;
+  }
+  
+  .mobile-only.flex {
+    display: flex !important;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
   /* Hero Section Mobile */
   .hero-section {
     height: auto;
@@ -174,6 +187,23 @@
 
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  /* Catalog Page Responsive Filters */
+  .filter-sidebar {
+    display: none;
+    position: relative;
+    top: 0;
+    padding: 20px;
+  }
+  
+  .filter-sidebar.active {
+    display: block;
   }
 
   /* Catalog Sort-Search Row */
@@ -242,3 +272,79 @@
     right: -100%;
   }
 }
+
+/* Breakpoint 3: Portrait Mobile (Maksimal 480px) */
+@media screen and (max-width: 480px) {
+  .nav-actions {
+    gap: 10px;
+  }
+  
+  #user-nav-container button span {
+    display: none !important;
+  }
+  
+  #user-nav-container button {
+    padding: 8px !important;
+    border-radius: 50% !important;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #user-nav-container button svg {
+    margin: 0 !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .notification-dropdown {
+    position: fixed !important;
+    top: 70px !important;
+    left: 16px !important;
+    right: 16px !important;
+    width: auto !important;
+    max-width: calc(100vw - 32px) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .announcement-bar {
+    font-size: 0.75rem;
+    padding: 8px 32px 8px 12px;
+  }
+  
+  .announcement-bar button {
+    right: 8px !important;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+  }
+
+  .about-blockquote {
+    font-size: 0.95rem;
+    padding-left: 12px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Catalog Detail Modal adjust */
+  .modal-content {
+    max-width: 96%;
+    max-height: 95vh;
+  }
+}
+

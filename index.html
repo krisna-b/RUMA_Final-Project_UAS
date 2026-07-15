@@ -57,18 +57,27 @@
           <li><a href="index.html" class="nav-link active" data-i18n="nav-home">Beranda</a></li>
           <li><a href="katalog.html" class="nav-link" data-i18n="nav-catalog">Katalog</a></li>
           <li><a href="#tentang" class="nav-link" data-i18n="nav-about">Tentang Kami</a></li>
+          <!-- Mobile Switchers inside menu drawer -->
+          <li class="mobile-only mobile-nav-switchers-container">
+            <button class="btn btn-secondary" onclick="toggleCurrency()" title="Ubah Mata Uang" style="padding: 8px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 4px;">
+              💵 <span id="currency-toggle-text-mobile">IDR</span>
+            </button>
+            <button class="btn btn-secondary" onclick="toggleLanguage()" title="Ubah Bahasa" style="padding: 8px 12px; font-size: 0.85rem; font-weight: 700; border-radius: 4px;">
+              🌐 <span id="lang-toggle-text-mobile">ID</span>
+            </button>
+          </li>
         </ul>
       </nav>
 
       <div class="nav-actions">
         <!-- Currency Switcher -->
-        <button class="btn-icon" onclick="toggleCurrency()" title="Ubah Mata Uang / Switch Currency"
+        <button class="btn-icon desktop-only" onclick="toggleCurrency()" title="Ubah Mata Uang / Switch Currency"
           style="font-size: 0.8rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
           <span id="currency-toggle-text">IDR</span>
         </button>
 
         <!-- Language Switcher -->
-        <button class="btn-icon" onclick="toggleLanguage()" title="Ubah Bahasa / Switch Language"
+        <button class="btn-icon desktop-only" onclick="toggleLanguage()" title="Ubah Bahasa / Switch Language"
           style="font-size: 0.85rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
           <span id="lang-toggle-text">ID</span>
         </button>
@@ -261,7 +270,7 @@
         style="text-align: center; color: var(--color-text-secondary); max-width: 600px; margin: 0 auto 36px auto; font-size: 0.95rem;">
         Inspirasi penataan ruang nyata menggunakan produk furniture knock-down hemat tempat dari RUMA.</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+      <div class="gallery-grid">
         <div style="position: relative; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-subtle);">
           <img src="images/room-dorm.png" alt="RUMA Kamar Kos/Dorm Room"
             style="width: 100%; height: 260px; object-fit: cover; display: block; transition: var(--transition-smooth);"

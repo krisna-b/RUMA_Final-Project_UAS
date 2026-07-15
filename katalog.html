@@ -56,18 +56,27 @@
           <li><a href="index.html" class="nav-link" data-i18n="nav-home">Beranda</a></li>
           <li><a href="katalog.html" class="nav-link active" data-i18n="nav-catalog">Katalog</a></li>
           <li><a href="index.html#tentang" class="nav-link" data-i18n="nav-about">Tentang Kami</a></li>
+          <!-- Mobile Switchers inside menu drawer -->
+          <li class="mobile-only mobile-nav-switchers-container">
+            <button class="btn btn-secondary" onclick="toggleCurrency()" title="Ubah Mata Uang" style="padding: 8px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 4px;">
+              💵 <span id="currency-toggle-text-mobile">IDR</span>
+            </button>
+            <button class="btn btn-secondary" onclick="toggleLanguage()" title="Ubah Bahasa" style="padding: 8px 12px; font-size: 0.85rem; font-weight: 700; border-radius: 4px;">
+              🌐 <span id="lang-toggle-text-mobile">ID</span>
+            </button>
+          </li>
         </ul>
       </nav>
 
       <div class="nav-actions">
         <!-- Currency Switcher -->
-        <button class="btn-icon" onclick="toggleCurrency()" title="Ubah Mata Uang / Switch Currency"
+        <button class="btn-icon desktop-only" onclick="toggleCurrency()" title="Ubah Mata Uang / Switch Currency"
           style="font-size: 0.8rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
           <span id="currency-toggle-text">IDR</span>
         </button>
 
         <!-- Language Switcher -->
-        <button class="btn-icon" onclick="toggleLanguage()" title="Ubah Bahasa / Switch Language"
+        <button class="btn-icon desktop-only" onclick="toggleLanguage()" title="Ubah Bahasa / Switch Language"
           style="font-size: 0.85rem; font-weight: 700; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
           <span id="lang-toggle-text">ID</span>
         </button>
@@ -117,6 +126,11 @@
   <main class="catalog-section">
     <div class="container">
       <div class="catalog-layout">
+
+        <!-- Mobile Toggle Filters Button -->
+        <button type="button" class="btn btn-secondary mobile-only toggle-filters-btn" onclick="toggleMobileFilters()" style="width: 100%; margin-bottom: 20px; display: none; justify-content: center; align-items: center; gap: 8px;">
+          <span>🔍</span> <span data-i18n="cat-toggle-filters">Tampilkan / Sembunyikan Filter</span>
+        </button>
 
         <!-- Sidebar Filters -->
         <aside class="filter-sidebar">
@@ -509,12 +523,19 @@
   <script src="js/translation.js"></script>
   <script src="js/filter.js"></script>
   <script>
-
     // Toggle menu navigasi mobile
     function toggleMobileMenu() {
       const menu = document.getElementById('nav-menu');
       if (menu) {
         menu.classList.toggle('active');
+      }
+    }
+
+    // Toggle filters panel on mobile
+    function toggleMobileFilters() {
+      const sidebar = document.querySelector('.filter-sidebar');
+      if (sidebar) {
+        sidebar.classList.toggle('active');
       }
     }
   </script>
