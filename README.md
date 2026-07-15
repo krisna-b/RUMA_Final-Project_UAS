@@ -145,6 +145,7 @@ Katalog awal RUMA terdiri dari 10 kategori produk:
 |---|---|
 | **`index.html`** | Navbar, Hero Banner, produk unggulan, testimoni, footer |
 | **`katalog.html`** | Grid produk lengkap + filter & search |
+| **`profile.html`** | terpisah, infomasi dari akun
 | **Modal Detail Produk** | Muncul dari katalog, tidak perlu halaman terpisah |
 | **Keranjang Belanja** | Sidebar/modal, dapat diakses dari navbar mana saja |
 | **`checkout.html`** | Form data diri, ringkasan pesanan, simulasi pembayaran |
