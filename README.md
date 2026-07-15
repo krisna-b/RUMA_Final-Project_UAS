@@ -250,7 +250,7 @@ Untuk memenuhi kriteria kebersihan kode, modularitas, dan pemeliharaan jangka pa
 
 | Validasi Pembayaran | Katalog|
 |---|---|
-| ![Lifestyle](images/validasi.jpeg) | ![Katalog](images/katalog.jpg) |
+| ![Lifestyle](images/validasi.jpeg) | ![Katalog](images/katalog 1.png) |
 
 ---
 
@@ -258,7 +258,7 @@ Untuk memenuhi kriteria kebersihan kode, modularitas, dan pemeliharaan jangka pa
 
 | Nama | NIM | Peran |
 |---|---|---|
-| Krisna Bagja | 209250190 | Full-stack Development, Business Strategy |
+| Krisna Bagja | 209250190 | Mahasiswa ABI 8|
 
 ---
 
