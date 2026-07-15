@@ -511,6 +511,17 @@ function _finalizeLogin() {
   trackGAEvent('Login Sukses', currentUser.email);
   if (typeof loadProfilePage === 'function') loadProfilePage();
   if (typeof autofillCheckoutForm === 'function') autofillCheckoutForm();
+
+  // Redirect to checkout if there was a pending checkout action
+  const pendingCheckout = localStorage.getItem('ruma_pending_checkout');
+  if (pendingCheckout === 'true') {
+    localStorage.removeItem('ruma_pending_checkout');
+    if (window.location.pathname.includes('profile.html')) {
+      window.location.href = 'index.html#checkout';
+    } else {
+      window.location.hash = '#checkout';
+    }
+  }
 }
 
 function handleLogout(event) {
@@ -761,7 +772,7 @@ window.addEventListener('click', (e) => {
     }
   }
 
-  // Intercept checkout click if not logged in
+  // Intercept checkout click
   const checkoutBtn = e.target.closest('.cart-checkout-btn');
   if (checkoutBtn) {
     // Close the cart drawer
@@ -770,8 +781,18 @@ window.addEventListener('click', (e) => {
       drawer.classList.remove('open');
     }
 
+    if (cart.length === 0) {
+      e.preventDefault();
+      const emptyPrompt = currentLang === 'en' 
+        ? 'Your cart is empty!' 
+        : 'Keranjang belanja Anda kosong!';
+      showToast(emptyPrompt, 'warning');
+      return;
+    }
+
     if (!currentUser) {
       e.preventDefault();
+      localStorage.setItem('ruma_pending_checkout', 'true');
       const loginPrompt = currentLang === 'en' 
         ? 'Please login first to proceed to checkout.' 
         : 'Silakan login terlebih dahulu untuk melakukan checkout.';

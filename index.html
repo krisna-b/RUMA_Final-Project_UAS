@@ -1122,6 +1122,7 @@
           alert(currentLang === 'en' 
             ? 'You must login first to access the checkout page.' 
             : 'Anda harus login terlebih dahulu untuk mengakses halaman checkout.');
+          localStorage.setItem('ruma_pending_checkout', 'true');
           window.location.hash = '#home';
           openLoginModal();
           return;
