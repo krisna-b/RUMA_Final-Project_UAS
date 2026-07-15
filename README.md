@@ -265,9 +265,9 @@ cd ruma
 
 ### 🖥️ Tampilan Galeri Desain
 
-| Ruangan Minimalis | Kolase Katalog |
+| Beranda | Katalog |
 |---|---|
-| ![Lifestyle](images/about-lifestyle.jpg) | ![Katalog](images/catalog-preview.jpg) |
+| ![Lifestyle](images/beranda.png) | ![Katalog](images/catalog-preview.jpg) |
 
 | Banner Hero | Konsep Ruang |
 |---|---|
