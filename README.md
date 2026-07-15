@@ -257,7 +257,7 @@ cd ruma
 # atau gunakan Live Server (VS Code extension) untuk hasil terbaik
 ```
 
-**Live Website:** [https://username.github.io/ruma/](#)
+**Live Website:** [https://krisna-b.github.io/RUMA_Final-Project_UAS/](#)
 
 ---
 
