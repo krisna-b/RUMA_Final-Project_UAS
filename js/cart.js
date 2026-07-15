@@ -36,6 +36,15 @@ function toggleCart() {
 
 // 4. Menambahkan Produk ke Keranjang (Mendukung Bilingual Toast)
 function addToCart(productId, qty = 1) {
+  if (!currentUser) {
+    const loginPrompt = currentLang === 'en' 
+      ? 'Please login first to add products to the cart.' 
+      : 'Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.';
+    showToast(loginPrompt, 'warning');
+    openLoginModal();
+    return;
+  }
+
   if (typeof products === 'undefined') {
     console.error('Database produk (products.js) belum dimuat.');
     return;
@@ -509,6 +518,13 @@ function handleLogout(event) {
   const userName = currentUser ? currentUser.name : '';
   currentUser = null;
   localStorage.removeItem('ruma_user');
+  
+  // Clear cart on logout
+  cart = [];
+  localStorage.removeItem('ruma_cart');
+  updateCartBadge();
+  if (typeof renderCartDrawer === 'function') renderCartDrawer();
+  
   updateNavbarUserUI();
   
   // Reset notifications to user/guest list and push a logout notification
@@ -742,6 +758,26 @@ window.addEventListener('click', (e) => {
     const chatBtn = document.querySelector('.chat-nav-btn');
     if (chatBtn && !chatBtn.contains(e.target) && !chatWindow.contains(e.target)) {
       chatWindow.classList.remove('open');
+    }
+  }
+
+  // Intercept checkout click if not logged in
+  const checkoutBtn = e.target.closest('.cart-checkout-btn');
+  if (checkoutBtn) {
+    if (!currentUser) {
+      e.preventDefault();
+      
+      // Close the cart drawer
+      const drawer = document.getElementById('cart-drawer');
+      if (drawer && drawer.classList.contains('open')) {
+        drawer.classList.remove('open');
+      }
+      
+      const loginPrompt = currentLang === 'en' 
+        ? 'Please login first to proceed to checkout.' 
+        : 'Silakan login terlebih dahulu untuk melakukan checkout.';
+      showToast(loginPrompt, 'warning');
+      openLoginModal();
     }
   }
 });
@@ -1206,6 +1242,14 @@ document.addEventListener('DOMContentLoaded', () => {
         header.classList.remove('scrolled');
       }
     });
+  }
+
+  // Open login modal if requested in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('login') === '1') {
+    setTimeout(() => {
+      openLoginModal();
+    }, 300);
   }
 
   trackGAEvent('Pageview', window.location.pathname);

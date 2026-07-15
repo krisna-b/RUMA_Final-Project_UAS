@@ -6,6 +6,15 @@ let shippingCost = 25000;
 let assemblyCost = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Check login status first
+  if (!currentUser) {
+    alert(currentLang === 'en' 
+      ? 'You must login first to access the checkout page.' 
+      : 'Anda harus login terlebih dahulu untuk mengakses halaman checkout.');
+    window.location.href = 'index.html?login=1';
+    return;
+  }
+
   const checkoutForm = document.getElementById('checkout-form');
   if (checkoutForm) {
     renderOrderSummary();
