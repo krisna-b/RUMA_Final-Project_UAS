@@ -742,7 +742,6 @@ window.addEventListener('click', (e) => {
     const chatBtn = document.querySelector('.chat-nav-btn');
     if (chatBtn && !chatBtn.contains(e.target) && !chatWindow.contains(e.target)) {
       chatWindow.classList.remove('open');
-      chatWindow.style.display = 'none';
     }
   }
 });
@@ -912,24 +911,21 @@ function initChatWidget() {
 
   const chatWrapper = document.createElement('div');
   chatWrapper.id = 'chat-nav-wrapper';
-  chatWrapper.style.position = 'relative';
-  chatWrapper.style.display = 'flex';
-  chatWrapper.style.alignItems = 'center';
   
   chatWrapper.innerHTML = `
-    <button class="btn-icon chat-nav-btn" onclick="toggleChatWindow(event)" title="Live Chat Support" style="font-size: 1.1rem; width: 44px; height: 40px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: none; border: none; color: var(--color-text-primary); cursor: pointer; transition: var(--transition-smooth);">
+    <button class="btn-icon chat-nav-btn" onclick="toggleChatWindow(event)" title="Live Chat Support">
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square" style="display:block;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
     </button>
-    <div class="chat-window" id="chat-window" style="position: absolute; top: 100%; right: 0; margin-top: 8px; width: 340px; height: 455px; display: none; flex-direction: column; background: var(--color-white); border: 1px solid var(--color-border); border-radius: 8px; box-shadow: var(--shadow-medium); z-index: 170;">
-      <div class="chat-header" style="background-color: var(--color-accent); color: var(--color-white); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-        <h4 id="chat-title" style="margin: 0; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 6px; font-family: var(--font-body);">💬 Live Chat Support</h4>
-        <button class="chat-close-btn" onclick="toggleChatWindow(event)" style="background: none; border: none; color: var(--color-white); font-size: 1.25rem; cursor: pointer; line-height: 1;">&times;</button>
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <h4 id="chat-title">💬 Live Chat Support</h4>
+        <button class="chat-close-btn" onclick="toggleChatWindow(event)">&times;</button>
       </div>
-      <div class="chat-body" id="chat-body" style="flex: 1; padding: 12px; overflow-y: auto; background-color: var(--color-bg-secondary); display: flex; flex-direction: column; gap: 10px;">
+      <div class="chat-body" id="chat-body">
       </div>
-      <div class="chat-footer" id="chat-footer" style="padding: 10px; border-top: 1px solid var(--color-border); display: none; gap: 6px; background-color: var(--color-white); border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
-        <input type="text" class="chat-input" id="chat-input" placeholder="Tulis pesan..." onkeypress="handleChatEnter(event)" style="flex: 1; border: 1px solid var(--color-border); border-radius: 20px; padding: 6px 12px; font-size: 0.78rem; outline: none; font-family: var(--font-body);">
-        <button class="chat-send-btn" onclick="sendChatMessage()" style="background-color: var(--color-accent); color: var(--color-white); border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+      <div class="chat-footer" id="chat-footer">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Tulis pesan..." onkeypress="handleChatEnter(event)">
+        <button class="chat-send-btn" onclick="sendChatMessage()">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/></svg>
         </button>
       </div>
@@ -946,14 +942,11 @@ function toggleChatWindow(event) {
   if (windowEl) {
     windowEl.classList.toggle('open');
     if (windowEl.classList.contains('open')) {
-      windowEl.style.display = 'flex';
       renderChatContent();
       setTimeout(() => {
         const body = document.getElementById('chat-body');
         if (body) body.scrollTop = body.scrollHeight;
       }, 100);
-    } else {
-      windowEl.style.display = 'none';
     }
   }
 }
