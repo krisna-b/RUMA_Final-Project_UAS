@@ -16,7 +16,7 @@
 ---
 
 <p align="center">
-  <img src="images/banner-hero.jpg" alt="RUMA Hero Banner" width="100%">
+  <img src="images/products/banner.png" alt="RUMA Hero Banner" width="100%">
 </p>
 
 ---
