@@ -834,6 +834,113 @@
     </div>
   </div>
 
+  <!-- View: Profile -->
+  <div id="view-profile" style="display: none;">
+    <!-- Breadcrumb -->
+    <div style="background-color: var(--color-bg-secondary); padding: 15px 0; border-bottom: 1px solid var(--color-border);">
+      <div class="container" style="display: flex; gap: 8px; font-size: 0.8rem; color: var(--color-text-secondary);">
+        <a href="#home" style="text-decoration: none; color: inherit;" data-i18n="nav-home">Beranda</a>
+        <span>&gt;</span>
+        <span style="color: var(--color-text-primary); font-weight: 700;" data-i18n="profile-title">Profil Saya</span>
+      </div>
+    </div>
+
+    <!-- Profile Content Container -->
+    <main class="container" style="padding-top: 20px; padding-bottom: 40px;">
+      <div id="profile-unauthorized" style="display: none; text-align: center; padding: 80px 20px;">
+        <span style="font-size: 4rem;">🔒</span>
+        <h2 style="font-family: var(--font-heading); margin-top: 16px;" data-i18n="profile-auth-required-title">Akses Terbatas</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: 24px;" data-i18n="profile-auth-required-desc">Silakan masuk ke akun Anda terlebih dahulu untuk melihat informasi profil.</p>
+        <button type="button" class="btn btn-primary" onclick="openLoginModal()" data-i18n="nav-login-btn">Masuk</button>
+      </div>
+
+      <div id="profile-authorized" class="profile-container" style="display: none;">
+        <!-- Left Panel: Avatar & Summary -->
+        <section class="profile-card">
+          <div class="profile-avatar" id="avatar-initials">U</div>
+          <h2 id="card-fullname" style="font-family: var(--font-heading); font-size: 1.3rem; margin: 0; color: var(--color-text-primary);">Nama Pengguna</h2>
+          <span class="profile-badge badge-user" id="card-role">Customer</span>
+          
+          <div style="margin-top: 24px; text-align: left; border-top: 1px solid var(--color-border); padding-top: 16px;">
+            <div style="font-size: 0.75rem; color: var(--color-text-secondary); margin-bottom: 4px;">AKTIF SEJAK</div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--color-text-primary);" id="card-joined-date">Juli 2026</div>
+          </div>
+        </section>
+
+        <!-- Right Panel: Edit Details & History -->
+        <section style="display: flex; flex-direction: column; gap: 24px;">
+          <div class="profile-details-card">
+            <h3 data-i18n="profile-details-title">Informasi Akun</h3>
+            <form id="profile-form" onsubmit="saveProfileChanges(event)">
+              <div class="info-grid">
+                <div class="info-item">
+                  <label for="prof-username">Username</label>
+                  <input type="text" id="prof-username" required>
+                </div>
+                <div class="info-item">
+                  <label for="prof-email">Email</label>
+                  <input type="email" id="prof-email" required>
+                </div>
+              </div>
+              
+              <div class="info-grid" id="prof-cust-fields">
+                <div class="info-item">
+                  <label for="prof-phone" data-i18n="check-label-phone">Nomor Telepon</label>
+                  <input type="text" id="prof-phone">
+                </div>
+                <div class="info-item">
+                  <label for="prof-address" data-i18n="check-label-address">Alamat Lengkap</label>
+                  <textarea id="prof-address" style="resize: vertical; height: 42px; font-family: inherit; font-size: 0.85rem;"></textarea>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="padding: 12px 24px;" data-i18n="profile-save-btn">Simpan Perubahan</button>
+            </form>
+          </div>
+
+          <!-- Activity History -->
+          <div class="profile-details-card" id="profile-history-card">
+            <h3 data-i18n="profile-history-title">Riwayat Aktivitas & Transaksi</h3>
+            <div id="history-box">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Admin Dashboard Section (Visible only to Admin) -->
+          <div class="profile-details-card" id="profile-admin-card" style="display: none;">
+            <h3 data-i18n="admin-title">Panel Manajemen Admin RUMA</h3>
+            
+            <!-- Section 1: Produk -->        
+            <div style="background:var(--color-bg-secondary); border-radius:8px; padding:16px 18px; margin-bottom:24px;">
+              <h4 style="font-size:0.92rem; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="var(--color-accent)" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                Manajemen Produk
+              </h4>
+              <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; margin-bottom: 16px;">
+                  <thead>
+                    <tr style="border-bottom: 2px solid var(--color-border);">
+                      <th style="padding: 10px 8px; font-size: 0.82rem;" data-i18n="admin-col-name">Nama Produk</th>
+                      <th style="padding: 10px 8px; font-size: 0.82rem;" data-i18n="admin-col-price">Harga (IDR)</th>
+                      <th style="padding: 10px 8px; font-size: 0.82rem;" data-i18n="admin-col-stock">Stok</th>
+                      <th style="padding: 10px 8px; font-size: 0.82rem; text-align: center;" data-i18n="admin-col-status">Visibilitas</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-products-tbody">
+                    <!-- Rendered dynamically -->
+                  </tbody>
+                </table>
+              </div>
+              <button onclick="saveAdminChanges()" class="btn btn-primary" style="width: 100%; padding: 11px; font-weight: 700; font-size:0.85rem;" data-i18n="admin-sync-btn">
+                Sinkronkan & Simpan Perubahan
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="container">
@@ -1078,6 +1185,7 @@
   <script src="js/translation.js?v=1.1"></script>
   <script src="js/filter.js?v=1.1"></script>
   <script src="js/checkout.js?v=1.1"></script>
+  <script src="js/profile.js?v=1.1"></script>
   <script>
     // SPA Routing Engine
     function handleRouting() {
@@ -1086,6 +1194,7 @@
       const viewHome = document.getElementById('view-home');
       const viewCatalog = document.getElementById('view-catalog');
       const viewCheckout = document.getElementById('view-checkout');
+      const viewProfile = document.getElementById('view-profile');
       
       const navLinks = document.querySelectorAll('.nav-link');
       navLinks.forEach(link => link.classList.remove('active'));
@@ -1094,6 +1203,7 @@
         if (viewHome) viewHome.style.display = 'block';
         if (viewCatalog) viewCatalog.style.display = 'none';
         if (viewCheckout) viewCheckout.style.display = 'none';
+        if (viewProfile) viewProfile.style.display = 'none';
         
         const homeLink = document.querySelector('.nav-link[data-i18n="nav-home"]');
         if (homeLink) homeLink.classList.add('active');
@@ -1110,6 +1220,7 @@
         if (viewHome) viewHome.style.display = 'none';
         if (viewCatalog) viewCatalog.style.display = 'block';
         if (viewCheckout) viewCheckout.style.display = 'none';
+        if (viewProfile) viewProfile.style.display = 'none';
         
         const catalogLink = document.querySelector('.nav-link[data-i18n="nav-catalog"]');
         if (catalogLink) catalogLink.classList.add('active');
@@ -1131,9 +1242,19 @@
         if (viewHome) viewHome.style.display = 'none';
         if (viewCatalog) viewCatalog.style.display = 'none';
         if (viewCheckout) viewCheckout.style.display = 'block';
+        if (viewProfile) viewProfile.style.display = 'none';
         
         if (typeof initCheckoutPage === 'function') {
           initCheckoutPage();
+        }
+      } else if (hash === '#profile') {
+        if (viewHome) viewHome.style.display = 'none';
+        if (viewCatalog) viewCatalog.style.display = 'none';
+        if (viewCheckout) viewCheckout.style.display = 'none';
+        if (viewProfile) viewProfile.style.display = 'block';
+        
+        if (typeof loadProfilePage === 'function') {
+          loadProfilePage();
         }
       }
       

@@ -367,7 +367,7 @@ function updateNavbarUserUI() {
         <div style="padding: 10px 16px; font-size: 0.8rem; color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border); word-break: break-all;">
           <strong>${currentUser.name}</strong><br>${currentUser.email}
         </div>
-        <a href="profile.html" class="dropdown-item">${profileLabel}</a>
+        <a href="#profile" class="dropdown-item">${profileLabel}</a>
         <a href="#" onclick="handleLogout(event)" class="dropdown-item" style="color: var(--color-danger);">${logoutLabel}</a>
       </div>
     `;
@@ -516,11 +516,7 @@ function _finalizeLogin() {
   const pendingCheckout = localStorage.getItem('ruma_pending_checkout');
   if (pendingCheckout === 'true') {
     localStorage.removeItem('ruma_pending_checkout');
-    if (window.location.pathname.includes('profile.html')) {
-      window.location.href = 'index.html#checkout';
-    } else {
-      window.location.hash = '#checkout';
-    }
+    window.location.hash = '#checkout';
   }
 }
 
