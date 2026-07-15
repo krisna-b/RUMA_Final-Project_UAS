@@ -131,7 +131,6 @@ Katalog awal RUMA terdiri dari 10 kategori produk:
 - 💳 **Checkout** — form data pelanggan + validasi input + simulasi pembayaran (Midtrans dummy)
 - 📱 **Responsive Design** — tampilan optimal di desktop, tablet, dan mobile
 - 🎨 **UI Modern** — Flexbox & Grid layout, warna brand konsisten, animasi scroll halus
-- 📈 **Analytics** — integrasi Google Analytics (dummy) untuk memantau bounce rate & conversion
 
 ### Fitur Tambahan
 - Smooth scrolling antar section
@@ -170,15 +169,6 @@ Katalog awal RUMA terdiri dari 10 kategori produk:
 - **SEO:** meta tag deskriptif, alt text pada semua gambar produk, struktur heading yang semantik (h1–h3)
 - **Keamanan:** validasi input form di sisi client, sanitasi sederhana untuk mencegah input tidak wajar
 - **Pemeliharaan:** update katalog produk berkala, cek broken link/gambar, monitoring performa via Analytics
-
-## 📈 Data Analytics
-
-Metrik yang dipantau melalui Google Analytics (dummy):
-- **Bounce rate** — mengukur efektivitas halaman utama
-- **Conversion rate** — persentase pengunjung yang menyelesaikan checkout
-- **Produk terpopuler** — produk yang paling sering dilihat/ditambahkan ke keranjang
-- **Rata-rata waktu di halaman** — indikator ketertarikan pengunjung
-
 ---
 
 ## 🛠️ Tech Stack
