@@ -250,7 +250,7 @@ Untuk memenuhi kriteria kebersihan kode, modularitas, dan pemeliharaan jangka pa
 
 | Validasi Pembayaran | Katalog|
 |---|---|
-| ![Lifestyle](images/validasi.jpeg) | ![Katalog](images/katalog 1.png) |
+| ![Lifestyle](images/validasi.jpeg) | ![Katalog](images/katalog 1.jpg) |
 
 ---
 
