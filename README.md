@@ -244,9 +244,11 @@ Untuk memenuhi kriteria kebersihan kode, modularitas, dan pemeliharaan jangka pa
 |---|---|
 | ![Lifestyle](images/beranda.png) | ![Katalog](images/profile.png) |
 
-| Banner Hero | Konsep Ruang |
+### 📱 Tampilan Mobile
+
+| Validasi Pembayaran | Katalog|
 |---|---|
-| ![Hero Banner](images/banner-hero.jpg) | ![Kamar Studio](images/room-studio.jpg) |
+| ![Lifestyle](images/) | ![Katalog](images/) |
 
 ---
 
