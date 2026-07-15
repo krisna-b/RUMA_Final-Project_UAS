@@ -171,8 +171,8 @@
       </div>
 
       <nav class="nav-menu" id="nav-menu">
-        <a href="index.html" data-i18n="nav-home">Beranda</a>
-        <a href="katalog.html" data-i18n="nav-catalog">Katalog</a>
+        <a href="index.html#home" data-i18n="nav-home">Beranda</a>
+        <a href="index.html#catalog" data-i18n="nav-catalog">Katalog</a>
         <!-- Mobile Switchers inside menu drawer -->
         <div class="mobile-only mobile-nav-switchers-container">
           <button type="button" class="btn btn-secondary" onclick="toggleCurrency()" title="Ubah Mata Uang" style="padding: 8px 12px; font-size: 0.8rem; font-weight: 700; border-radius: 4px;">
@@ -382,7 +382,7 @@
             <span id="cart-total">Rp 0</span>
           </div>
         </div>
-        <a href="checkout.html" class="btn btn-primary cart-checkout-btn" data-i18n="cart-checkout-cta">Lanjut ke Pembayaran 💳</a>
+        <a href="index.html#checkout" class="btn btn-primary cart-checkout-btn" data-i18n="cart-checkout-cta">Lanjut ke Pembayaran 💳</a>
       </div>
     </div>
   </div>
@@ -624,7 +624,7 @@
           <div class="empty-history-box">
             <span style="font-size: 2.5rem; display: block; margin-bottom: 12px;">🛒</span>
             <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 16px;">${emptyText}</p>
-            <a href="katalog.html" class="btn btn-secondary" style="font-size: 0.8rem; padding: 8px 16px;">${ctaText}</a>
+            <a href="index.html#catalog" class="btn btn-secondary" style="font-size: 0.8rem; padding: 8px 16px;">${ctaText}</a>
           </div>
         `;
         return;

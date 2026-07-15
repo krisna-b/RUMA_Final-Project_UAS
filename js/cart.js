@@ -219,7 +219,7 @@ function renderCartDrawer() {
           </svg>
         </div>
         <p>${emptyText}</p>
-        <a href="katalog.html" class="btn btn-primary" style="margin-top: 12px;" onclick="toggleCart()">${shopText}</a>
+        <a href="index.html#catalog" class="btn btn-primary" style="margin-top: 12px;" onclick="toggleCart()">${shopText}</a>
       </div>
     `;
     

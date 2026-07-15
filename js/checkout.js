@@ -5,23 +5,31 @@
 let shippingCost = 25000; 
 let assemblyCost = 0;
 
+let checkoutEventsInitialized = false;
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Check login status first
+  const checkoutForm = document.getElementById('checkout-form');
+  if (checkoutForm && !checkoutEventsInitialized) {
+    initCheckoutEvents();
+    checkoutEventsInitialized = true;
+  }
+});
+
+function initCheckoutPage() {
   if (!currentUser) {
     alert(currentLang === 'en' 
       ? 'You must login first to access the checkout page.' 
       : 'Anda harus login terlebih dahulu untuk mengakses halaman checkout.');
-    window.location.href = 'index.html?login=1';
+    window.location.hash = '#home';
     return;
   }
 
   const checkoutForm = document.getElementById('checkout-form');
   if (checkoutForm) {
     renderOrderSummary();
-    initCheckoutEvents();
     autofillCheckoutForm(); // Auto-fill jika user sudah login
   }
-});
+}
 
 // 1. Render Summary Belanja di Checkout (Bilingual)
 function renderOrderSummary() {
@@ -34,7 +42,7 @@ function renderOrderSummary() {
     container.innerHTML = `
       <div style="text-align: center; padding: 20px 0;">
         <p>${emptyText}</p>
-        <a href="katalog.html" class="btn btn-primary" style="margin-top: 12px; display: inline-block;">${ctaText}</a>
+        <a href="#catalog" class="btn btn-primary" style="margin-top: 12px; display: inline-block;">${ctaText}</a>
       </div>
     `;
     updateCheckoutTotals(0, 0, 0, 0);
@@ -545,5 +553,6 @@ ${message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}
 
 // 12. Selesai
 function finishCheckoutProcess() {
-  window.location.href = 'index.html';
+  window.location.hash = '#home';
+  closePaymentModal();
 }
