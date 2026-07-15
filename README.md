@@ -9,7 +9,8 @@
 
 **Website E-Commerce Furniture Minimalis untuk Anak Kos & First Apartment**
 
-[Live Demo](#) · [Laporan Bug](#) · [Ajukan Fitur](#)
+**Live Demo:** [https://krisna-b.github.io/RUMA_Final-Project_UAS/](#)
+**Live Website:** [https://krisna-b.github.io/RUMA_Final-Project_UAS/](#)
 
 </div>
 
@@ -232,23 +233,6 @@ Untuk memenuhi kriteria kebersihan kode, modularitas, dan pemeliharaan jangka pa
 
 5. **Pelacakan Perilaku Pengguna (Google Analytics Dummy)**
    - Script analytics disematkan di setiap halaman. Ketika interaksi penting terjadi (seperti pageview, menambah produk ke keranjang, mengganti kuantitas, memvalidasi form, atau sukses transaksi), sebuah fungsi `trackGAEvent` dipicu untuk mencetak log GA ke konsol browser sebagai simulasi analitik data-driven.
-
----
-
-## 🚀 Cara Menjalankan Proyek
-
-```bash
-# Clone repository
-git clone https://github.com/username/ruma.git
-
-# Masuk ke folder proyek
-cd ruma
-
-# Buka index.html langsung di browser,
-# atau gunakan Live Server (VS Code extension) untuk hasil terbaik
-```
-
-**Live Website:** [https://krisna-b.github.io/RUMA_Final-Project_UAS/](#)
 
 ---
 
