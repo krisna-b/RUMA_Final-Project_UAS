@@ -24,6 +24,11 @@
 </head>
 
 <body>
+  <script>
+    window.addEventListener('error', function(e) {
+      alert("JS Error: " + e.message + "\nFile: " + (e.filename ? e.filename.split('/').pop() : 'inline') + "\nLine: " + e.lineno);
+    });
+  </script>
 
   <div class="announcement-bar" style="position: relative; display: flex; justify-content: center; align-items: center;">
     <span data-i18n="announcement-text">Beli 2 Item atau Lebih & Dapatkan Diskon Bundling 10% Otomatis!</span>
@@ -627,7 +632,7 @@
     <main class="checkout-section">
       <div class="container">
         
-        <form id="checkout-form" class="checkout-layout">
+        <form id="checkout-form" class="checkout-layout" novalidate>
           
           <!-- Left Column: Shipping & Payment Details -->
           <div class="checkout-main">
@@ -801,37 +806,7 @@
       </div>
     </main>
 
-    <!-- Midtrans Dummy Payment Gateway Modal -->
-    <div id="payment-modal" class="payment-modal">
-      <div class="payment-modal-overlay" onclick="closePaymentModal()"></div>
-      <div class="payment-modal-content">
-        <div class="payment-modal-header">
-          <h3>🛡️ Midtrans Simulator</h3>
-          <button type="button" onclick="closePaymentModal()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
-        </div>
-        
-        <div class="payment-modal-body">
-          
-          <!-- Payment Amount Header -->
-          <div class="payment-amount-box">
-            <div class="payment-amount-label">Jumlah Pembayaran</div>
-            <div class="payment-amount-val" id="modal-payment-amount">Rp 0</div>
-          </div>
-          
-          <!-- Dynamic content: QRIS or Bank VA -->
-          <div id="modal-payment-detail-content">
-            <!-- Rendered dynamically via checkout.js -->
-          </div>
-          
-          <!-- Action Buttons -->
-          <div class="payment-actions">
-            <button type="button" class="btn payment-btn-success" onclick="simulatePaymentSuccess()">Simulasikan Bayar Sukses ✓</button>
-            <button type="button" class="btn payment-btn-cancel" onclick="closePaymentModal()">Batalkan Transaksi</button>
-          </div>
-          
-        </div>
-      </div>
-    </div>
+    <!-- Midtrans Dummy Payment Gateway Modal Relocated to Body Level -->
   </div>
 
   <!-- View: Profile -->
@@ -1067,6 +1042,38 @@
         </div>
         <a href="#checkout" class="btn btn-primary cart-checkout-btn" data-i18n="cart-checkout-cta">Lanjut ke
           Pembayaran 💳</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Midtrans Dummy Payment Gateway Modal -->
+  <div id="payment-modal" class="payment-modal">
+    <div class="payment-modal-overlay" onclick="closePaymentModal()"></div>
+    <div class="payment-modal-content">
+      <div class="payment-modal-header">
+        <h3>🛡️ Midtrans Simulator</h3>
+        <button type="button" onclick="closePaymentModal()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
+      </div>
+      
+      <div class="payment-modal-body">
+        
+        <!-- Payment Amount Header -->
+        <div class="payment-amount-box">
+          <div class="payment-amount-label">Jumlah Pembayaran</div>
+          <div class="payment-amount-val" id="modal-payment-amount">Rp 0</div>
+        </div>
+        
+        <!-- Dynamic content: QRIS or Bank VA -->
+        <div id="modal-payment-detail-content">
+          <!-- Rendered dynamically via checkout.js -->
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="payment-actions">
+          <button type="button" class="btn payment-btn-success" onclick="simulatePaymentSuccess()">Simulasikan Bayar Sukses ✓</button>
+          <button type="button" class="btn payment-btn-cancel" onclick="closePaymentModal()">Batalkan Transaksi</button>
+        </div>
+        
       </div>
     </div>
   </div>

@@ -24,6 +24,12 @@ function initCheckoutPage() {
     return;
   }
 
+  // Ensure event listeners are bound
+  if (!checkoutEventsInitialized) {
+    initCheckoutEvents();
+    checkoutEventsInitialized = true;
+  }
+
   const checkoutForm = document.getElementById('checkout-form');
   if (checkoutForm) {
     renderOrderSummary();
@@ -50,6 +56,9 @@ function renderOrderSummary() {
     if (submitBtn) submitBtn.disabled = true;
     return;
   }
+
+  const submitBtn = document.getElementById('submit-checkout-btn');
+  if (submitBtn) submitBtn.disabled = false;
 
   let html = '';
   cart.forEach(item => {
@@ -167,13 +176,16 @@ function initCheckoutEvents() {
   if (checkoutForm) {
     checkoutForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      alert("DEBUG: Submit handler fired! Cart length = " + cart.length);
       
       if (cart.length === 0) {
         showToast(currentLang === 'en' ? 'Your cart is empty!' : 'Keranjang belanja Anda kosong!', 'danger');
         return;
       }
 
-      if (validateCheckoutForm()) {
+      const isValid = validateCheckoutForm();
+      alert("DEBUG: Validation result = " + isValid);
+      if (isValid) {
         openPaymentModal();
       }
     });
@@ -182,62 +194,73 @@ function initCheckoutEvents() {
 
 // 5. Validasi Form Data Diri (Mendukung Bilingual Toast)
 function validateCheckoutForm() {
-  const nameEl = document.getElementById('cust-name');
-  const emailEl = document.getElementById('cust-email');
-  const phoneEl = document.getElementById('cust-phone');
-  const addressEl = document.getElementById('cust-address');
-  const cityEl = document.getElementById('cust-city');
-  const zipEl = document.getElementById('cust-zip');
+  try {
+    const nameEl = document.getElementById('cust-name');
+    const emailEl = document.getElementById('cust-email');
+    const phoneEl = document.getElementById('cust-phone');
+    const addressEl = document.getElementById('cust-address');
+    const cityEl = document.getElementById('cust-city');
+    const zipEl = document.getElementById('cust-zip');
 
-  const name = nameEl ? nameEl.value.trim() : '';
-  const email = emailEl ? emailEl.value.trim() : '';
-  const phone = phoneEl ? phoneEl.value.trim() : '';
-  const address = addressEl ? addressEl.value.trim() : '';
-  const city = cityEl ? cityEl.value.trim() : '';
-  const zip = zipEl ? zipEl.value.trim() : '';
+    const name = nameEl ? nameEl.value.trim() : '';
+    const email = emailEl ? emailEl.value.trim() : '';
+    const phone = phoneEl ? phoneEl.value.trim() : '';
+    const address = addressEl ? addressEl.value.trim() : '';
+    const city = cityEl ? cityEl.value.trim() : '';
+    const zip = zipEl ? zipEl.value.trim() : '';
 
-  let isValid = true;
+    let isValid = true;
 
-  if (name.length < 3) {
-    const msg = currentLang === 'en' ? 'Full name must be at least 3 characters.' : 'Nama lengkap minimal harus 3 karakter.';
-    showToast(msg, 'danger');
-    isValid = false;
+    if (name.length < 3) {
+      const msg = currentLang === 'en' ? 'Full name must be at least 3 characters.' : 'Nama lengkap minimal harus 3 karakter.';
+      alert("DEBUG Validation Error: " + msg);
+      showToast(msg, 'danger');
+      isValid = false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      const msg = currentLang === 'en' ? 'Invalid email address format.' : 'Format alamat email tidak valid.';
+      alert("DEBUG Validation Error: " + msg);
+      showToast(msg, 'danger');
+      isValid = false;
+    }
+
+    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    if (cleanPhone.length < 10 || cleanPhone.length > 13) {
+      const msg = currentLang === 'en' ? 'Invalid phone number (must be 10-13 digits).' : 'Nomor HP tidak valid (harus 10-13 digit angka saja).';
+      alert("DEBUG Validation Error: " + msg);
+      showToast(msg, 'danger');
+      isValid = false;
+    }
+
+    if (address.length < 10) {
+      const msg = currentLang === 'en' ? 'Full shipping address must be at least 10 characters.' : 'Alamat lengkap pengiriman minimal harus 10 karakter.';
+      alert("DEBUG Validation Error: " + msg);
+      showToast(msg, 'danger');
+      isValid = false;
+    }
+
+    if (city.length === 0) {
+      const msg = currentLang === 'en' ? 'City must be filled.' : 'Kota pengiriman harus diisi.';
+      alert("DEBUG Validation Error: " + msg);
+      showToast(msg, 'danger');
+      isValid = false;
+    }
+
+    const cleanZip = zip.replace(/[^0-9]/g, '');
+    if (cleanZip.length !== 5) {
+      const msg = currentLang === 'en' ? 'Invalid ZIP Code (must be 5 digits).' : 'Kode pos tidak valid (harus 5 digit angka).';
+      alert("DEBUG Validation Error: " + msg);
+      showToast(msg, 'danger');
+      isValid = false;
+    }
+
+    return isValid;
+  } catch (error) {
+    alert("DEBUG validateCheckoutForm Error: " + error.message + "\nStack: " + error.stack);
+    return false;
   }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    const msg = currentLang === 'en' ? 'Invalid email address format.' : 'Format alamat email tidak valid.';
-    showToast(msg, 'danger');
-    isValid = false;
-  }
-
-  const cleanPhone = phone.replace(/[^0-9]/g, '');
-  if (cleanPhone.length < 10 || cleanPhone.length > 13) {
-    const msg = currentLang === 'en' ? 'Invalid phone number (must be 10-13 digits).' : 'Nomor HP tidak valid (harus 10-13 digit angka saja).';
-    showToast(msg, 'danger');
-    isValid = false;
-  }
-
-  if (address.length < 10) {
-    const msg = currentLang === 'en' ? 'Full shipping address must be at least 10 characters.' : 'Alamat lengkap pengiriman minimal harus 10 karakter.';
-    showToast(msg, 'danger');
-    isValid = false;
-  }
-
-  if (city.length === 0) {
-    const msg = currentLang === 'en' ? 'City must be filled.' : 'Kota pengiriman harus diisi.';
-    showToast(msg, 'danger');
-    isValid = false;
-  }
-
-  const cleanZip = zip.replace(/[^0-9]/g, '');
-  if (cleanZip.length !== 5) {
-    const msg = currentLang === 'en' ? 'Invalid ZIP Code (must be 5 digits).' : 'Kode pos tidak valid (harus 5 digit angka).';
-    showToast(msg, 'danger');
-    isValid = false;
-  }
-
-  return isValid;
 }
 
 // 6. Autofill Form Pengiriman
@@ -283,139 +306,144 @@ function clearCheckoutForm() {
 
 // 8. Buka Popup Simulasi Midtrans (Bilingual & Multi-payment)
 function openPaymentModal() {
-  const totals = calculateTotals();
-  const grandTotal = totals.total + shippingCost + assemblyCost;
-  
-  const amountEl = document.getElementById('modal-payment-amount');
-  if (amountEl) {
-    amountEl.textContent = formatRupiah(grandTotal);
-  }
+  try {
+    alert("DEBUG: openPaymentModal called!");
+    const totals = calculateTotals();
+    const grandTotal = totals.total + shippingCost + assemblyCost;
+    
+    const amountEl = document.getElementById('modal-payment-amount');
+    if (amountEl) {
+      amountEl.textContent = formatRupiah(grandTotal);
+    }
 
-  const selectedPaymentEl = document.querySelector('input[name="payment-method"]:checked');
-  const selectedPayment = selectedPaymentEl ? selectedPaymentEl.value : 'bank-transfer';
-  const paymentContent = document.getElementById('modal-payment-detail-content');
-  
-  // Update tombol sesuai bahasa
-  const successBtn = document.querySelector('.payment-btn-success');
-  const cancelBtn = document.querySelector('.payment-btn-cancel');
+    const selectedPaymentEl = document.querySelector('input[name="payment-method"]:checked');
+    const selectedPayment = selectedPaymentEl ? selectedPaymentEl.value : 'bank-transfer';
+    const paymentContent = document.getElementById('modal-payment-detail-content');
+    
+    // Update tombol sesuai bahasa
+    const successBtn = document.querySelector('.payment-btn-success');
+    const cancelBtn = document.querySelector('.payment-btn-cancel');
 
-  if (successBtn) {
-    successBtn.textContent = currentLang === 'en' ? 'Simulate Payment Success ✓' : 'Simulasikan Bayar Sukses ✓';
-  }
-  if (cancelBtn) {
-    cancelBtn.textContent = currentLang === 'en' ? 'Cancel Transaction' : 'Batalkan Transaksi';
-  }
+    if (successBtn) {
+      successBtn.textContent = currentLang === 'en' ? 'Simulate Payment Success ✓' : 'Simulasikan Bayar Sukses ✓';
+    }
+    if (cancelBtn) {
+      cancelBtn.textContent = currentLang === 'en' ? 'Cancel Transaction' : 'Batalkan Transaksi';
+    }
 
-  if (!paymentContent) return;
+    if (!paymentContent) return;
 
-  if (selectedPayment === 'bank-transfer') {
-    const phoneEl = document.getElementById('cust-phone');
-    const phoneVal = phoneEl ? phoneEl.value.trim() : '';
-    const randomVA = "880608" + (phoneVal.length > 6 ? phoneVal.slice(-6) : "123456");
-    const title = currentLang === 'en' ? 'Please transfer to this Virtual Account:' : 'Lakukan transfer ke Virtual Account berikut:';
-    const copyText = currentLang === 'en' ? 'Copy' : 'Salin';
-    const descText = currentLang === 'en' 
-      ? 'Use mobile banking or nearest ATM to complete payment before timeout.' 
-      : 'Gunakan mobile banking atau ATM terdekat untuk melakukan transfer sebelum batas waktu berakhir.';
+    if (selectedPayment === 'bank-transfer') {
+      const phoneEl = document.getElementById('cust-phone');
+      const phoneVal = phoneEl ? phoneEl.value.trim() : '';
+      const randomVA = "880608" + (phoneVal.length > 6 ? phoneVal.slice(-6) : "123456");
+      const title = currentLang === 'en' ? 'Please transfer to this Virtual Account:' : 'Lakukan transfer ke Virtual Account berikut:';
+      const copyText = currentLang === 'en' ? 'Copy' : 'Salin';
+      const descText = currentLang === 'en' 
+        ? 'Use mobile banking or nearest ATM to complete payment before timeout.' 
+        : 'Gunakan mobile banking atau ATM terdekat untuk melakukan transfer sebelum batas waktu berakhir.';
 
-    paymentContent.innerHTML = `
-      <div class="payment-instruction-title">${title}</div>
-      <div class="va-box">
-        <span class="va-number" id="simulated-va">${randomVA}</span>
-        <button type="button" class="copy-va-btn" onclick="copyVA()">${copyText}</button>
-      </div>
-      <p style="font-size: 0.8rem; color: var(--color-text-secondary); margin-bottom: 20px;">
-        ${descText}
-      </p>
-    `;
-  } else if (selectedPayment === 'qris') {
-    const title = currentLang === 'en' ? 'Scan the following QR Code with your E-Wallet app:' : 'Scan Kode QR berikut dengan aplikasi E-Wallet Anda:';
-    const descText = currentLang === 'en'
-      ? 'Open GoPay/OVO/Dana and scan the QR dummy code above.'
-      : 'Buka aplikasi GoPay/OVO/Dana lalu arahkan kamera scanner ke kode QR di atas.';
-
-    paymentContent.innerHTML = `
-      <div class="qr-code-box">
+      paymentContent.innerHTML = `
         <div class="payment-instruction-title">${title}</div>
-        <div class="qr-code-dummy"></div>
-        <p style="font-size: 0.8rem; color: var(--color-text-secondary);">
+        <div class="va-box">
+          <span class="va-number" id="simulated-va">${randomVA}</span>
+          <button type="button" class="copy-va-btn" onclick="copyVA()">${copyText}</button>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--color-text-secondary); margin-bottom: 20px;">
           ${descText}
         </p>
-      </div>
-    `;
-  } else if (selectedPayment === 'cc') {
-    const ccTitle = currentLang === 'en' ? 'Simulated Credit Card details:' : 'Informasi Kartu Kredit Simulasi:';
-    const holderLabel = currentLang === 'en' ? 'Cardholder Name' : 'Nama Pemegang Kartu';
-    const nameEl = document.getElementById('cust-name');
-    const nameVal = nameEl ? nameEl.value.trim() : '';
-    paymentContent.innerHTML = `
-      <div style="text-align: left; padding: 10px 0;">
-        <div class="payment-instruction-title" style="margin-bottom: 8px;">${ccTitle}</div>
-        <div style="margin-bottom: 12px; background: #2a3b68; color: white; padding: 15px; border-radius: 8px; font-family: monospace; letter-spacing: 2px; box-shadow: 0 4px 6px rgba(0,0,0,0.15);">
-          <div style="font-size: 0.65rem; opacity: 0.8; margin-bottom: 6px;">CREDIT CARD SIMULATOR</div>
-          <div style="font-size: 1.1rem; margin-bottom: 8px;" id="simulated-cc-number">4111 1111 1111 1111</div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.75rem;">
-            <span>EXP: 12/29</span>
-            <span>CVV: 123</span>
+      `;
+    } else if (selectedPayment === 'qris') {
+      const title = currentLang === 'en' ? 'Scan the following QR Code with your E-Wallet app:' : 'Scan Kode QR berikut dengan aplikasi E-Wallet Anda:';
+      const descText = currentLang === 'en'
+        ? 'Open GoPay/OVO/Dana and scan the QR dummy code above.'
+        : 'Buka aplikasi GoPay/OVO/Dana lalu arahkan kamera scanner ke kode QR di atas.';
+
+      paymentContent.innerHTML = `
+        <div class="qr-code-box">
+          <div class="payment-instruction-title">${title}</div>
+          <div class="qr-code-dummy"></div>
+          <p style="font-size: 0.8rem; color: var(--color-text-secondary);">
+            ${descText}
+          </p>
+        </div>
+      `;
+    } else if (selectedPayment === 'cc') {
+      const ccTitle = currentLang === 'en' ? 'Simulated Credit Card details:' : 'Informasi Kartu Kredit Simulasi:';
+      const holderLabel = currentLang === 'en' ? 'Cardholder Name' : 'Nama Pemegang Kartu';
+      const nameEl = document.getElementById('cust-name');
+      const nameVal = nameEl ? nameEl.value.trim() : '';
+      paymentContent.innerHTML = `
+        <div style="text-align: left; padding: 10px 0;">
+          <div class="payment-instruction-title" style="margin-bottom: 8px;">${ccTitle}</div>
+          <div style="margin-bottom: 12px; background: #2a3b68; color: white; padding: 15px; border-radius: 8px; font-family: monospace; letter-spacing: 2px; box-shadow: 0 4px 6px rgba(0,0,0,0.15);">
+            <div style="font-size: 0.65rem; opacity: 0.8; margin-bottom: 6px;">CREDIT CARD SIMULATOR</div>
+            <div style="font-size: 1.1rem; margin-bottom: 8px;" id="simulated-cc-number">4111 1111 1111 1111</div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem;">
+              <span>EXP: 12/29</span>
+              <span>CVV: 123</span>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 15px;">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-secondary);">${holderLabel}</label>
+            <input type="text" class="form-control" value="${nameVal}" readonly style="padding: 6px; font-size: 0.8rem; background-color: var(--color-bg-secondary);">
           </div>
         </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-          <label style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-secondary);">${holderLabel}</label>
-          <input type="text" class="form-control" value="${nameVal}" readonly style="padding: 6px; font-size: 0.8rem; background-color: var(--color-bg-secondary);">
+      `;
+    } else if (selectedPayment === 'debit') {
+      const dbTitle = currentLang === 'en' ? 'Simulated Secure GPN Online Debit:' : 'Debit Online GPN Simulasi:';
+      const numLabel = currentLang === 'en' ? 'Card Number' : 'Nomor Kartu Debit';
+      paymentContent.innerHTML = `
+        <div style="text-align: left; padding: 10px 0;">
+          <div class="payment-instruction-title" style="margin-bottom: 8px;">${dbTitle}</div>
+          <div style="margin-bottom: 12px; background: #e0f2f1; border-left: 4px solid var(--color-accent); padding: 10px; font-size: 0.78rem; color: #004d40;">
+            ${currentLang === 'en' ? 'GPN Online Debit simulator. OTP token will be automatically processed on confirmation.' : 'Simulasi Gerbang Debit Online GPN. Token OTP otomatis diproses ketika disetujui.'}
+          </div>
+          <div class="form-group">
+            <label style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-secondary);">${numLabel}</label>
+            <input type="text" class="form-control" value="1902 5019 0250 1902" readonly style="padding: 6px; font-size: 0.8rem; background-color: var(--color-bg-secondary);">
+          </div>
         </div>
-      </div>
-    `;
-  } else if (selectedPayment === 'debit') {
-    const dbTitle = currentLang === 'en' ? 'Simulated Secure GPN Online Debit:' : 'Debit Online GPN Simulasi:';
-    const numLabel = currentLang === 'en' ? 'Card Number' : 'Nomor Kartu Debit';
-    paymentContent.innerHTML = `
-      <div style="text-align: left; padding: 10px 0;">
-        <div class="payment-instruction-title" style="margin-bottom: 8px;">${dbTitle}</div>
-        <div style="margin-bottom: 12px; background: #e0f2f1; border-left: 4px solid var(--color-accent); padding: 10px; font-size: 0.78rem; color: #004d40;">
-          ${currentLang === 'en' ? 'GPN Online Debit simulator. OTP token will be automatically processed on confirmation.' : 'Simulasi Gerbang Debit Online GPN. Token OTP otomatis diproses ketika disetujui.'}
+      `;
+    } else if (selectedPayment === 'cod') {
+      const codTitle = currentLang === 'en' ? 'Cash on Delivery (COD)' : 'Bayar di Tempat (COD)';
+      const codDesc = currentLang === 'en'
+        ? 'Please prepare exact cash amount to pay the courier on delivery. No advance online transfer required.'
+        : 'Harap siapkan uang tunai pas saat kurir tiba mengantarkan barang. Tidak perlu melakukan pembayaran online di awal.';
+      paymentContent.innerHTML = `
+        <div style="text-align: center; padding: 15px 0;">
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">💵</div>
+          <div class="payment-instruction-title" style="font-size: 1rem; margin-bottom: 6px;">${codTitle}</div>
+          <p style="font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5; margin: 0 10px 10px 10px;">
+            ${codDesc}
+          </p>
         </div>
-        <div class="form-group">
-          <label style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-secondary);">${numLabel}</label>
-          <input type="text" class="form-control" value="1902 5019 0250 1902" readonly style="padding: 6px; font-size: 0.8rem; background-color: var(--color-bg-secondary);">
+      `;
+    } else if (selectedPayment === 'offline') {
+      const offTitle = currentLang === 'en' ? 'Payment Reference Code:' : 'Kode Pembayaran Retail:';
+      const offDesc = currentLang === 'en'
+        ? 'Present this transaction code or barcode to the Indomaret/Alfamart cashier to pay.'
+        : 'Tunjukkan kode pembayaran atau barcode di atas kepada kasir Indomaret/Alfamart terdekat.';
+      paymentContent.innerHTML = `
+        <div style="text-align: center; padding: 15px 0;">
+          <div style="font-size: 1.5rem; background: var(--color-bg-secondary); padding: 12px; border-radius: 4px; border: 1px dashed var(--color-border); letter-spacing: 2px; margin-bottom: 10px; display: inline-block; font-weight: 700; font-family: monospace;">RUMA-IND-209250190</div>
+          <div class="payment-instruction-title" style="font-size: 0.85rem; margin-bottom: 6px;">${offTitle}</div>
+          <p style="font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.4; margin: 0 10px 10px 10px;">
+            ${offDesc}
+          </p>
         </div>
-      </div>
-    `;
-  } else if (selectedPayment === 'cod') {
-    const codTitle = currentLang === 'en' ? 'Cash on Delivery (COD)' : 'Bayar di Tempat (COD)';
-    const codDesc = currentLang === 'en'
-      ? 'Please prepare exact cash amount to pay the courier on delivery. No advance online transfer required.'
-      : 'Harap siapkan uang tunai pas saat kurir tiba mengantarkan barang. Tidak perlu melakukan pembayaran online di awal.';
-    paymentContent.innerHTML = `
-      <div style="text-align: center; padding: 15px 0;">
-        <div style="font-size: 2.5rem; margin-bottom: 10px;">💵</div>
-        <div class="payment-instruction-title" style="font-size: 1rem; margin-bottom: 6px;">${codTitle}</div>
-        <p style="font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5; margin: 0 10px 10px 10px;">
-          ${codDesc}
-        </p>
-      </div>
-    `;
-  } else if (selectedPayment === 'offline') {
-    const offTitle = currentLang === 'en' ? 'Payment Reference Code:' : 'Kode Pembayaran Retail:';
-    const offDesc = currentLang === 'en'
-      ? 'Present this transaction code or barcode to the Indomaret/Alfamart cashier to pay.'
-      : 'Tunjukkan kode pembayaran atau barcode di atas kepada kasir Indomaret/Alfamart terdekat.';
-    paymentContent.innerHTML = `
-      <div style="text-align: center; padding: 15px 0;">
-        <div style="font-size: 1.5rem; background: var(--color-bg-secondary); padding: 12px; border-radius: 4px; border: 1px dashed var(--color-border); letter-spacing: 2px; margin-bottom: 10px; display: inline-block; font-weight: 700; font-family: monospace;">RUMA-IND-209250190</div>
-        <div class="payment-instruction-title" style="font-size: 0.85rem; margin-bottom: 6px;">${offTitle}</div>
-        <p style="font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.4; margin: 0 10px 10px 10px;">
-          ${offDesc}
-        </p>
-      </div>
-    `;
-  }
+      `;
+    }
 
-  const modal = document.getElementById('payment-modal');
-  if (modal) {
-    modal.classList.add('open');
+    const modal = document.getElementById('payment-modal');
+    if (modal) {
+      modal.classList.add('open');
+    }
+    
+    trackGAEvent('Checkout Form Validated', selectedPayment, grandTotal);
+  } catch (error) {
+    alert("DEBUG openPaymentModal Error: " + error.message + "\nStack: " + error.stack);
   }
-  
-  trackGAEvent('Checkout Form Validated', selectedPayment, grandTotal);
 }
 
 // 9. Tutup Modal
