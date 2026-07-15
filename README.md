@@ -33,12 +33,11 @@
 8. [Struktur Halaman](#-struktur-halaman)
 9. [Proses Checkout & Payment Gateway](#-proses-checkout--payment-gateway)
 10. [SEO, Keamanan & Pemeliharaan](#-seo-keamanan--pemeliharaan)
-11. [Data Analytics](#-data-analytics)
-12. [Tech Stack](#-tech-stack)
-13. [Struktur Folder Proyek](#-struktur-folder-proyek)
-14. [Cara Menjalankan Proyek](#-cara-menjalankan-proyek)
-15. [Screenshot Website](#-screenshot-website)
-16. [Tim Pengembang](#-tim-pengembang)
+11. [Tech Stack](#-tech-stack)
+12. [Struktur Folder Proyek](#-struktur-folder-proyek)
+13. [Cara Menjalankan Proyek](#-cara-menjalankan-proyek)
+14. [Screenshot Website](#-screenshot-website)
+15. [Tim Pengembang](#-tim-pengembang)
 
 ---
 
@@ -131,7 +130,6 @@ Katalog awal RUMA terdiri dari 10 kategori produk:
 - 💳 **Checkout** — form data pelanggan + validasi input + simulasi pembayaran (Midtrans dummy)
 - 📱 **Responsive Design** — tampilan optimal di desktop, tablet, dan mobile
 - 🎨 **UI Modern** — Flexbox & Grid layout, warna brand konsisten, animasi scroll halus
-- 📈 **Analytics** — integrasi Google Analytics (dummy) untuk memantau bounce rate & conversion
 
 ### Fitur Tambahan
 - Smooth scrolling antar section
@@ -188,9 +186,10 @@ Katalog awal RUMA terdiri dari 10 kategori produk:
 
 ```
 ruma/
+├── checkout.html
 ├── index.html
 ├── katalog.html
-├── checkout.html
+├── profle.html
 ├── css/
 │   ├── style.css         <-- CSS Utama, Desain Toko, & Layout Global
 │   └── responsive.css    <-- Media Queries responsif (Desktop, Tablet, Mobile)
@@ -255,11 +254,11 @@ cd ruma
 
 ## 📸 Screenshot Website
 
-### 🖥️ Tampilan Galeri Desain
+### 🖥️ Tampilan Dekstop
 
 | Beranda | Profile |
 |---|---|
-| ![Lifestyle](images/beranda.png) | ![Katalog](images/) |
+| ![Lifestyle](images/beranda.png) | ![Katalog](images/profile.png) |
 
 | Banner Hero | Konsep Ruang |
 |---|---|
