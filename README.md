@@ -265,7 +265,7 @@ cd ruma
 
 ### 🖥️ Tampilan Galeri Desain
 
-| Beranda | Katalog |
+| Beranda | Profile |
 |---|---|
 | ![Lifestyle](images/beranda.png) | ![Katalog](images/catalog-preview.jpg) |
 
