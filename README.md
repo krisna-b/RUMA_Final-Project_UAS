@@ -244,13 +244,13 @@ Untuk memenuhi kriteria kebersihan kode, modularitas, dan pemeliharaan jangka pa
 
 | Beranda | Profile |
 |---|---|
-| ![Lifestyle](images/beranda.png) | ![Katalog](images/profile.png) |
+| ![Lifestyle](images/beranda.png) | ![Profile](images/profile.png) |
 
 ### 📱 Tampilan Mobile
 
 | Validasi Pembayaran | Katalog|
 |---|---|
-| ![Lifestyle](images/validasi.jpeg) | ![Katalog](images/katalog 1.jpg) |
+| ![Lifestyle](images/validasi.jpeg) | ![Katalog](images/katalogv2.png) |
 
 ---
 
