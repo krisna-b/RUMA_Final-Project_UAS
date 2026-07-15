@@ -182,12 +182,19 @@ function initCheckoutEvents() {
 
 // 5. Validasi Form Data Diri (Mendukung Bilingual Toast)
 function validateCheckoutForm() {
-  const name = document.getElementById('cust-name').value.trim();
-  const email = document.getElementById('cust-email').value.trim();
-  const phone = document.getElementById('cust-phone').value.trim();
-  const address = document.getElementById('cust-address').value.trim();
-  const city = document.getElementById('cust-city').value.trim();
-  const zip = document.getElementById('cust-zip').value.trim();
+  const nameEl = document.getElementById('cust-name');
+  const emailEl = document.getElementById('cust-email');
+  const phoneEl = document.getElementById('cust-phone');
+  const addressEl = document.getElementById('cust-address');
+  const cityEl = document.getElementById('cust-city');
+  const zipEl = document.getElementById('cust-zip');
+
+  const name = nameEl ? nameEl.value.trim() : '';
+  const email = emailEl ? emailEl.value.trim() : '';
+  const phone = phoneEl ? phoneEl.value.trim() : '';
+  const address = addressEl ? addressEl.value.trim() : '';
+  const city = cityEl ? cityEl.value.trim() : '';
+  const zip = zipEl ? zipEl.value.trim() : '';
 
   let isValid = true;
 
@@ -204,8 +211,8 @@ function validateCheckoutForm() {
     isValid = false;
   }
 
-  const phoneRegex = /^[0-9]{10,13}$/;
-  if (!phoneRegex.test(phone)) {
+  const cleanPhone = phone.replace(/[^0-9]/g, '');
+  if (cleanPhone.length < 10 || cleanPhone.length > 13) {
     const msg = currentLang === 'en' ? 'Invalid phone number (must be 10-13 digits).' : 'Nomor HP tidak valid (harus 10-13 digit angka saja).';
     showToast(msg, 'danger');
     isValid = false;
@@ -223,8 +230,8 @@ function validateCheckoutForm() {
     isValid = false;
   }
 
-  const zipRegex = /^[0-9]{5}$/;
-  if (!zipRegex.test(zip)) {
+  const cleanZip = zip.replace(/[^0-9]/g, '');
+  if (cleanZip.length !== 5) {
     const msg = currentLang === 'en' ? 'Invalid ZIP Code (must be 5 digits).' : 'Kode pos tidak valid (harus 5 digit angka).';
     showToast(msg, 'danger');
     isValid = false;
@@ -279,9 +286,13 @@ function openPaymentModal() {
   const totals = calculateTotals();
   const grandTotal = totals.total + shippingCost + assemblyCost;
   
-  document.getElementById('modal-payment-amount').textContent = formatRupiah(grandTotal);
+  const amountEl = document.getElementById('modal-payment-amount');
+  if (amountEl) {
+    amountEl.textContent = formatRupiah(grandTotal);
+  }
 
-  const selectedPayment = document.querySelector('input[name="payment-method"]:checked').value;
+  const selectedPaymentEl = document.querySelector('input[name="payment-method"]:checked');
+  const selectedPayment = selectedPaymentEl ? selectedPaymentEl.value : 'bank-transfer';
   const paymentContent = document.getElementById('modal-payment-detail-content');
   
   // Update tombol sesuai bahasa
@@ -295,8 +306,12 @@ function openPaymentModal() {
     cancelBtn.textContent = currentLang === 'en' ? 'Cancel Transaction' : 'Batalkan Transaksi';
   }
 
+  if (!paymentContent) return;
+
   if (selectedPayment === 'bank-transfer') {
-    const randomVA = "880608" + document.getElementById('cust-phone').value.slice(-6);
+    const phoneEl = document.getElementById('cust-phone');
+    const phoneVal = phoneEl ? phoneEl.value.trim() : '';
+    const randomVA = "880608" + (phoneVal.length > 6 ? phoneVal.slice(-6) : "123456");
     const title = currentLang === 'en' ? 'Please transfer to this Virtual Account:' : 'Lakukan transfer ke Virtual Account berikut:';
     const copyText = currentLang === 'en' ? 'Copy' : 'Salin';
     const descText = currentLang === 'en' 
@@ -331,6 +346,8 @@ function openPaymentModal() {
   } else if (selectedPayment === 'cc') {
     const ccTitle = currentLang === 'en' ? 'Simulated Credit Card details:' : 'Informasi Kartu Kredit Simulasi:';
     const holderLabel = currentLang === 'en' ? 'Cardholder Name' : 'Nama Pemegang Kartu';
+    const nameEl = document.getElementById('cust-name');
+    const nameVal = nameEl ? nameEl.value.trim() : '';
     paymentContent.innerHTML = `
       <div style="text-align: left; padding: 10px 0;">
         <div class="payment-instruction-title" style="margin-bottom: 8px;">${ccTitle}</div>
@@ -344,7 +361,7 @@ function openPaymentModal() {
         </div>
         <div class="form-group" style="margin-bottom: 15px;">
           <label style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-secondary);">${holderLabel}</label>
-          <input type="text" class="form-control" value="${document.getElementById('cust-name').value}" readonly style="padding: 6px; font-size: 0.8rem; background-color: var(--color-bg-secondary);">
+          <input type="text" class="form-control" value="${nameVal}" readonly style="padding: 6px; font-size: 0.8rem; background-color: var(--color-bg-secondary);">
         </div>
       </div>
     `;
