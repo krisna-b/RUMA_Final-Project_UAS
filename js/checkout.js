@@ -176,16 +176,13 @@ function initCheckoutEvents() {
   if (checkoutForm) {
     checkoutForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert("DEBUG: Submit handler fired! Cart length = " + cart.length);
       
       if (cart.length === 0) {
         showToast(currentLang === 'en' ? 'Your cart is empty!' : 'Keranjang belanja Anda kosong!', 'danger');
         return;
       }
 
-      const isValid = validateCheckoutForm();
-      alert("DEBUG: Validation result = " + isValid);
-      if (isValid) {
+      if (validateCheckoutForm()) {
         openPaymentModal();
       }
     });
@@ -213,7 +210,6 @@ function validateCheckoutForm() {
 
     if (name.length < 3) {
       const msg = currentLang === 'en' ? 'Full name must be at least 3 characters.' : 'Nama lengkap minimal harus 3 karakter.';
-      alert("DEBUG Validation Error: " + msg);
       showToast(msg, 'danger');
       isValid = false;
     }
@@ -221,7 +217,6 @@ function validateCheckoutForm() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       const msg = currentLang === 'en' ? 'Invalid email address format.' : 'Format alamat email tidak valid.';
-      alert("DEBUG Validation Error: " + msg);
       showToast(msg, 'danger');
       isValid = false;
     }
@@ -229,21 +224,18 @@ function validateCheckoutForm() {
     const cleanPhone = phone.replace(/[^0-9]/g, '');
     if (cleanPhone.length < 10 || cleanPhone.length > 13) {
       const msg = currentLang === 'en' ? 'Invalid phone number (must be 10-13 digits).' : 'Nomor HP tidak valid (harus 10-13 digit angka saja).';
-      alert("DEBUG Validation Error: " + msg);
       showToast(msg, 'danger');
       isValid = false;
     }
 
     if (address.length < 10) {
       const msg = currentLang === 'en' ? 'Full shipping address must be at least 10 characters.' : 'Alamat lengkap pengiriman minimal harus 10 karakter.';
-      alert("DEBUG Validation Error: " + msg);
       showToast(msg, 'danger');
       isValid = false;
     }
 
     if (city.length === 0) {
       const msg = currentLang === 'en' ? 'City must be filled.' : 'Kota pengiriman harus diisi.';
-      alert("DEBUG Validation Error: " + msg);
       showToast(msg, 'danger');
       isValid = false;
     }
@@ -251,14 +243,13 @@ function validateCheckoutForm() {
     const cleanZip = zip.replace(/[^0-9]/g, '');
     if (cleanZip.length !== 5) {
       const msg = currentLang === 'en' ? 'Invalid ZIP Code (must be 5 digits).' : 'Kode pos tidak valid (harus 5 digit angka).';
-      alert("DEBUG Validation Error: " + msg);
       showToast(msg, 'danger');
       isValid = false;
     }
 
     return isValid;
   } catch (error) {
-    alert("DEBUG validateCheckoutForm Error: " + error.message + "\nStack: " + error.stack);
+    console.error("validateCheckoutForm Error: ", error);
     return false;
   }
 }
@@ -307,7 +298,6 @@ function clearCheckoutForm() {
 // 8. Buka Popup Simulasi Midtrans (Bilingual & Multi-payment)
 function openPaymentModal() {
   try {
-    alert("DEBUG: openPaymentModal called!");
     const totals = calculateTotals();
     const grandTotal = totals.total + shippingCost + assemblyCost;
     
@@ -442,7 +432,7 @@ function openPaymentModal() {
     
     trackGAEvent('Checkout Form Validated', selectedPayment, grandTotal);
   } catch (error) {
-    alert("DEBUG openPaymentModal Error: " + error.message + "\nStack: " + error.stack);
+    console.error("openPaymentModal Error: ", error);
   }
 }
 
