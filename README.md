@@ -9,8 +9,6 @@
 
 **Website E-Commerce Furniture Minimalis untuk Anak Kos & First Apartment**
 
-**Live Demo:** [https://krisna-b.github.io/RUMA_Final-Project_UAS/](#)
-
 **Live Website:** https://krisna-b.github.io/RUMA_Final-Project_UAS
 
 </div>
